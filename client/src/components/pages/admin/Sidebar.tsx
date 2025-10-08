@@ -58,12 +58,9 @@ const Sidebar = () => {
 
     document.addEventListener("mousedown", handleClickOutside);
 
-    return () => {
-      // document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => {};
   }, []);
 
-  // Define all menu items with their required permissions
   const allMenuItems = [
     {
       to: "/",
@@ -79,99 +76,10 @@ const Sidebar = () => {
       color: "text-green-600",
       permission: null,
     },
-    {
-      to: "/admin/admin-management",
-      icon: Shield,
-      label: "Admin Management",
-      color: "text-red-600",
-      permission: "super_admin_only",
-    },
-    {
-      to: "/admin/users",
-      icon: Users,
-      label: "Users Management",
-      color: "text-blue-600",
-      permission: "manageUsers",
-    },
-    {
-      to: "/admin/vendors",
-      icon: Users,
-      label: "Manage Vendors",
-      color: "text-purple-600",
-      permission: "manageVendors",
-    },
-    {
-      to: "/admin/businesses",
-      icon: Building2,
-      label: "Manage Businesses",
-      color: "text-cyan-600",
-      permission: "editBusiness",
-    },
-    // {
-    //   to: "/admin/add-business",
-    //   icon: Plus,
-    //   label: "Add Business",
-    //   color: "text-emerald-600",
-    //   permission: "addBusiness",
-    // },
-    {
-      to: "/admin/support",
-      icon: MessageSquare,
-      label: "Support Center",
-      color: "text-red-600",
-      permission: "supportCenter",
-    },
-    {
-      to: "/admin/add-blog",
-      icon: Plus,
-      label: "Add Blog",
-      color: "text-orange-600",
-      permission: "blogs",
-    },
-    {
-      to: "/admin/get-blog",
-      icon: FileText,
-      label: "Get Blog",
-      color: "text-indigo-600",
-      permission: "blogs",
-    },
-    {
-      to: "/admin/subscription-logs",
-      icon: FileText,
-      label: "Subscription Logs",
-      color: "text-pink-600",
-      permission: "subscriptionLogs",
-    },
-    {
-      to: "/admin/ads",
-      icon: FileText,
-      label: "Ads",
-      color: "text-pink-600",
-      permission: "super_admin_only",
-    },
   ];
 
   // Filter menu items based on user permissions
-  const menuItems = allMenuItems.filter((item) => {
-    // Always show items without permission requirements
-    if (!item.permission) return true;
-
-    // Special case for super_admin_only items
-    if (item.permission === "super_admin_only") {
-      return user?.role === "super_admin";
-    }
-
-    // For super_admin, show all items
-    if (user?.role === "super_admin") return true;
-
-    // For admin, check specific permissions
-    if (user?.role === "admin") {
-      return user?.permissions?.[item.permission] === true;
-    }
-
-    // Hide for other roles
-    return false;
-  });
+  const menuItems = allMenuItems;
 
   return (
     <div

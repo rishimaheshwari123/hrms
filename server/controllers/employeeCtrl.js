@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs");
-const authModel = require("../models/authModel");
+const authModel = require("../models/employeeModel");
 const jwt = require("jsonwebtoken");
 
 
@@ -7,17 +7,14 @@ const jwt = require("jsonwebtoken");
 
 const registerCtrl = async (req, res) => {
   try {
-    const {
-      name, email, password,
-    } = req.body;
+    const { name, email, phone, password } = req.body;
 
-    if (!name || !email || !password) {
-      return res.status(403).send({
+    if (!email || !password) {
+      return res.status(403).json({
         success: false,
-        message: "All required fields must be filled",
+        message: "Email and password are required",
       });
     }
-
 
     const existingUser = await authModel.findOne({ email });
     if (existingUser) {
@@ -29,7 +26,10 @@ const registerCtrl = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await authModel.create({
-      name, email, password: hashedPassword,
+      name,
+      email,
+      phone,
+      password: hashedPassword,
     });
 
     const token = jwt.sign(
@@ -37,8 +37,13 @@ const registerCtrl = async (req, res) => {
       process.env.JWT_SECRET
     );
 
+    // Optionally store the token if required in DB
+    user.token = token;
+    await user.save();
+
+    // Set token as HTTP-only cookie
     const options = {
-      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days
       httpOnly: true,
     };
     res.cookie("token", token, options);
@@ -57,6 +62,9 @@ const registerCtrl = async (req, res) => {
     });
   }
 };
+
+
+
 
 const loginCtrl = async (req, res) => {
   try {
@@ -81,14 +89,18 @@ const loginCtrl = async (req, res) => {
     if (await bcrypt.compare(password, user.password)) {
       const token = jwt.sign(
         { email: user.email, id: user._id, role: user.role },
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
+        { expiresIn: "2d" }
       );
+
 
       user.token = token;
       user.password = undefined;
       const options = {
+        expires: new Date(Date.now() + 2 * 1000), // 2 seconds
         httpOnly: true,
       };
+
       res.cookie("token", token, options).status(200).json({
         success: true,
         token,
@@ -111,15 +123,8 @@ const loginCtrl = async (req, res) => {
 };
 
 
-
-
-
-
-
-
-
-
 module.exports = {
   registerCtrl,
-  loginCtrl
+  loginCtrl,
+
 };

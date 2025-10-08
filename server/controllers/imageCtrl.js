@@ -34,8 +34,7 @@ exports.uploadImages = async (req, res) => {
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).json({ success: false, message: 'No files were uploaded.' });
     }
-    console.log('Files received:', req.files);
-    
+console.log(req.files)
     const files = req.files.thumbnail; // Assumes files are uploaded with the name 'thumbnail'
     const urls = [];
 
@@ -44,25 +43,9 @@ exports.uploadImages = async (req, res) => {
 
     // Upload each file to Cloudinary
     for (const file of fileArray) {
-      try {
-        const newpath = await uploadImageToCloudinary(file, process.env.FOLDER_NAME);
-        urls.push(newpath);
-        
-        // Clean up temp file safely
-        if (file.tempFilePath && fs.existsSync(file.tempFilePath)) {
-          fs.unlinkSync(file.tempFilePath);
-        }
-      } catch (uploadError) {
-        console.error('Error uploading individual file:', uploadError);
-        // Continue with other files even if one fails
-      }
-    }
-
-    if (urls.length === 0) {
-      return res.status(500).json({ 
-        success: false, 
-        message: 'Failed to upload any images' 
-      });
+      const newpath = await uploadImageToCloudinary(file, process.env.FOLDER_NAME);
+      urls.push(newpath);
+      fs.unlinkSync(file.tempFilePath); // Delete the temp file
     }
 
     res.status(200).json({
@@ -72,10 +55,6 @@ exports.uploadImages = async (req, res) => {
     });
   } catch (error) {
     console.error('Image upload error:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Image upload failed', 
-      error: error.message 
-    });
+    res.status(500).json({ success: false, message: 'Image upload failed', error });
   }
 };

@@ -4,6 +4,7 @@ const BASE_URL = "http://localhost:8000/api/v1"
 
 export const endpoints = {
   LOGIN_API: BASE_URL + "/auth/login",
+  SIGNUP_API: BASE_URL + "/auth/register",
 }
 
 export const image = {
