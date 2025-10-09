@@ -22,7 +22,6 @@ const salarySchema = new mongoose.Schema(
       esiNumber: { type: String },
     },
     remarks: { type: String },
-    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true }
 );
