@@ -13,7 +13,8 @@ import { Eye, EyeOff } from "lucide-react";
 
 const signupSchema = z
   .object({
-    name: z.string().min(2, "Name must be at least 2 characters"),
+    firstName: z.string().min(2, "First Name must be at least 2 characters"),
+    lastName: z.string().min(2, "Last Name must be at least 2 characters"),
     email: z.string().email("Please enter a valid email address"),
     phone: z.string().optional(),
     password: z.string().min(6, "Password must be at least 6 characters"),
@@ -43,7 +44,8 @@ const Signup = () => {
   const onSubmit = async (data: SignupFormData) => {
     try {
       const formData = {
-        name: data.name,
+        firstName: data.firstName,
+        lastName: data.lastName,
         email: data.email,
         phone: data.phone || "",
         password: data.password,
@@ -67,16 +69,29 @@ const Signup = () => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Full Name</Label>
+            <Label htmlFor="firstName">First  Name</Label>
             <Input
-              id="name"
+              id="firstName"
               type="text"
               placeholder="Enter your full name"
-              {...register("name")}
-              className={errors.name ? "border-destructive" : ""}
+              {...register("firstName")}
+              className={errors.firstName ? "border-destructive" : ""}
             />
-            {errors.name && (
-              <p className="text-sm text-destructive">{errors.name.message}</p>
+            {errors.firstName && (
+              <p className="text-sm text-destructive">{errors.firstName.message}</p>
+            )}
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="lastName">Last Name</Label>
+            <Input
+              id="lastName"
+              type="text"
+              placeholder="Enter your full name"
+              {...register("lastName")}
+              className={errors.lastName ? "border-destructive" : ""}
+            />
+            {errors.lastName && (
+              <p className="text-sm text-destructive">{errors.lastName.message}</p>
             )}
           </div>
 
