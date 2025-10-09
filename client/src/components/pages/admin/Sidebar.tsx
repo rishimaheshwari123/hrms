@@ -20,6 +20,10 @@ import { RootState } from "@/redux/store";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import { endpoints } from "@/service/apis";
+import { apiConnector } from "@/service/apiConnector";
+
+const { LOGOUT_API } = endpoints;
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(
@@ -32,8 +36,9 @@ const Sidebar = () => {
 
   // Function to handle logout
   const handleLogout = async () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    try {
+      await apiConnector("POST", LOGOUT_API);
+    } catch (e) {}
     dispatch(setToken(null));
     dispatch(setUser(null));
     navigate("/");
@@ -76,10 +81,17 @@ const Sidebar = () => {
       color: "text-green-600",
       permission: null,
     },
+    {
+      to: "/hr/add-employee",
+      icon: Plus,
+      label: "Add Employee",
+      color: "text-purple-600",
+      permission: (user?.role === "admin" || user?.role === "hr" || user?.role === "manager") ? true : false,
+    },
   ];
 
   // Filter menu items based on user permissions
-  const menuItems = allMenuItems;
+  const menuItems = allMenuItems.filter(item => item.permission === null || item.permission);
 
   return (
     <div

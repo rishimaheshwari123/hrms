@@ -6,10 +6,11 @@ const employeeSchema = new mongoose.Schema(
   {
     // 🔹 Basic Information
     employeeCode: {
-    type: String,
-    unique: true,
-    sparse: true, 
-  },
+      type: String,
+      unique: true,
+      sparse: true,
+      index: true,
+    },
 
     firstName: { type: String, required: true },
     name: { type: String, required: true },
@@ -29,8 +30,9 @@ const employeeSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["employee", "admin"],
+      enum: ["employee", "admin", "manager", "hr"],
       default: "employee",
+      index: true,
     },
 
     token: {
@@ -38,7 +40,7 @@ const employeeSchema = new mongoose.Schema(
     },
 
     // 🔹 Contact Information
-    email: { type: String },
+    email: { type: String, unique: true, index: true },
     workEmail: { type: String, unique: true },
     personalPhone: { type: String },
     alternatePhone: { type: String },
@@ -60,10 +62,10 @@ const employeeSchema = new mongoose.Schema(
       default: "Pending",
     },
     designation: { type: String },
-    department: { type: String },
+    department: { type: String, index: true },
     manager: { type: mongoose.Schema.Types.ObjectId, ref: "Employee" },
     location: { type: String },
-    employeeType: { type: String, enum: ["Permanent", "Contract", "Intern", "Part-Time"] },
+    employeeType: { type: String, enum: ["Permanent", "Contract", "Intern", "Part-Time","Full-time"] },
 
     // 🔹 Reference Links
     salary: [{ type: mongoose.Schema.Types.ObjectId, ref: "Salary" }], // multiple salary revisions
@@ -114,9 +116,15 @@ const employeeSchema = new mongoose.Schema(
     // 🔹 System Meta
     isActive: { type: Boolean, default: false },
 
+    // 🔹 Password reset
+    resetPasswordToken: { type: String },
+    resetPasswordExpires: { type: Date },
   },
   { timestamps: true }
 );
+
+// 🔹 Text indexes for search
+employeeSchema.index({ name: "text", designation: "text" });
 
 const Employee = mongoose.model("Employee", employeeSchema);
 

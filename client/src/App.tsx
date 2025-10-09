@@ -9,6 +9,8 @@ import OpenRoute from "@/components/auth/OpenRoute";
 import PrivateRoute from "@/components/auth/PrivateRoute";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import EmployeeTimesheets from "./components/pages/employee/EmployeeTimesheets";
+import ManagerApprovals from "./components/pages/manager/ManagerApprovals";
 
 // Admin Components
 import Dashboard from "./components/pages/admin/Dashboard";
@@ -19,6 +21,7 @@ import Layout from "./components/pages/admin/Layout";
 import { RootState } from "./redux/store";
 import EmployeeLayout from "./components/pages/employee/EmployeeLayout";
 import EmployeeDashboard from "./components/pages/employee/EmployeeDashboard";
+import AddEmployee from "./components/pages/hr/AddEmployee";
 
 const queryClient = new QueryClient();
 
@@ -66,6 +69,30 @@ const App = () => {
                   </Route>
                 )}
 
+                {/* Manager/HR/Admin Approvals (Top-level protected route) */}
+                {(user?.role === "manager" || user?.role === "hr" || user?.role === "admin") && (
+                  <Route
+                    path="/manager/approvals"
+                    element={
+                      <PrivateRoute>
+                        <ManagerApprovals />
+                      </PrivateRoute>
+                    }
+                  />
+                )}
+
+                {/* HR Add Employee (Top-level protected route) */}
+                {(user?.role === "manager" || user?.role === "hr" || user?.role === "admin") && (
+                  <Route
+                    path="/hr/add-employee"
+                    element={
+                      <PrivateRoute>
+                        <AddEmployee />
+                      </PrivateRoute>
+                    }
+                  />
+                )}
+
                 {/* Employee Routes */}
                 {user?.role === "employee" && (
                   <Route
@@ -77,6 +104,7 @@ const App = () => {
                     }
                   >
                     <Route path="dashboard" element={<EmployeeDashboard />} />
+                    <Route path="timesheets" element={<EmployeeTimesheets />} />
                   </Route>
                 )}
 

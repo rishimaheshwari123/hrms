@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "seed:test-users": "node scripts/seedTestUsers.js"
   },
   "author": "mahi-technocrafts",
   "license": "ISC",
@@ -29,6 +30,10 @@
     "razorpay": "^2.9.6",
     "sharp": "^0.34.2",
     "uuid": "^11.1.0",
-    "zod": "^4.0.0"
+    "zod": "^4.0.0",
+    "helmet": "^7.0.0",
+    "morgan": "^1.10.0",
+    "express-rate-limit": "^7.4.0",
+    "dayjs": "^1.11.13"
   }
 }
