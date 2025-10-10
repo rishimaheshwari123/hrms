@@ -20,10 +20,6 @@ import { RootState } from "@/redux/store";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { endpoints } from "@/service/apis";
-import { apiConnector } from "@/service/apiConnector";
-
-const { LOGOUT_API } = endpoints;
 
 const EmployeeSidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(
@@ -36,9 +32,8 @@ const EmployeeSidebar = () => {
 
   // Function to handle logout
   const handleLogout = async () => {
-    try {
-      await apiConnector("POST", LOGOUT_API);
-    } catch (e) {}
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     dispatch(setToken(null));
     dispatch(setUser(null));
     navigate("/");
@@ -79,13 +74,6 @@ const EmployeeSidebar = () => {
       icon: BarChart3,
       label: "Dashboard",
       color: "text-green-600",
-      permission: null,
-    },
-    {
-      to: "/employee/timesheets",
-      icon: FileText,
-      label: "Timesheets",
-      color: "text-purple-600",
       permission: null,
     },
   ];

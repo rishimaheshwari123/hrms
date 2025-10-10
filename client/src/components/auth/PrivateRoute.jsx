@@ -8,8 +8,9 @@ function PrivateRoute({ children }) {
     return <Navigate to="/" />;
   }
 
-  // Allow authenticated users with supported roles
-  if (["admin", "employee", "manager", "hr"].includes(user?.role)) {
+  if (user?.role === "admin") {
+    return children;
+  } else if (user?.role === "employee") {
     return children;
   }
 
