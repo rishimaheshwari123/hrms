@@ -3,13 +3,13 @@ const mongoose = require("mongoose");
 const salarySchema = new mongoose.Schema(
   {
     employee: { type: mongoose.Schema.Types.ObjectId, ref: "Employee", required: true },
-    basic: { type: Number, required: true },
+    basic: { type: Number,  },
     hra: { type: Number },
     allowance: { type: Number },
     grossSalary: { type: Number },
     netSalary: { type: Number },
     currency: { type: String, default: "INR" },
-    effectiveFrom: { type: Date, required: true },
+    effectiveFrom: { type: Date, },
     bankDetails: {
       bankName: { type: String },
       branch: { type: String },

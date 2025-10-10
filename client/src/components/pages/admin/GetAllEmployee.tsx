@@ -62,6 +62,9 @@ const GetAllEmployee = () => {
   const handleView = (id) => {
     navigate(`/admin/view-employee/${id}`);
   };
+  const handleSalary = (id) => {
+    navigate(`/admin/salary-employee/${id}`);
+  };
   const handleAddEmployee = () => {
     navigate("/admin/add-employee");
   };
@@ -96,7 +99,6 @@ const GetAllEmployee = () => {
 
       <div className="overflow-x-auto bg-white shadow rounded-lg">
         <Table>
-          <TableCaption>List of registered employees</TableCaption>
           <TableHeader>
             <TableRow className="bg-gray-100">
               <TableHead className="font-bold">Name</TableHead>
@@ -158,6 +160,12 @@ const GetAllEmployee = () => {
                       onClick={() => handleView(emp?._id)}
                     >
                       View
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      onClick={() => handleSalary(emp?._id)}
+                    >
+                      Salary
                     </Button>
                   </TableCell>
                 </TableRow>

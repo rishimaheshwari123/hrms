@@ -14,3 +14,12 @@ export const endpoints = {
 export const image = {
   IMAGE_UPLOAD: BASE_URL + "/images/multi",
 }
+
+
+export const salary = {
+  
+ CREATE_SALARY: BASE_URL + "/salary/create",
+  UPDATE_SALARY: BASE_URL + "/salary/update",
+  GET_SALARY: BASE_URL + "/salary/get",
+
+}

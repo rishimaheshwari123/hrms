@@ -46,12 +46,22 @@ const id = user?._id;
               <p className="text-red-500">Date of Leaving: {new Date(employee?.dateOfLeaving).toLocaleDateString()}</p>
             )}
           </div>
-          <Link
-            to={`/employee/edit-employee/${employee?._id}`}
-            className="absolute top-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition"
-          >
-            Edit Employee
-          </Link>
+         <div className="absolute top-4 right-4 flex flex-col gap-2">
+  <Link
+    to={`/employee/edit-employee/${employee?._id}`}
+    className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition text-center"
+  >
+    Edit Employee
+  </Link>
+
+  <Link
+    to={`/employee/bank-details/${employee?._id}`}
+    className="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 transition text-center"
+  >
+    Bank Details
+  </Link>
+</div>
+
         </div>
 
         {/* Contact & Personal Info */}
