@@ -66,7 +66,7 @@ const employeeSchema = new mongoose.Schema(
     employeeType: { type: String, enum: ["Permanent", "Contract", "Intern", "Part-Time"] },
 
     // 🔹 Reference Links
-    salary: [{ type: mongoose.Schema.Types.ObjectId, ref: "Salary" }], // multiple salary revisions
+salary: { type: mongoose.Schema.Types.ObjectId, ref: "Salary" },
     leaves: [{ type: mongoose.Schema.Types.ObjectId, ref: "Leave" }], // employee leave records
 
     // 🔹 Education / Skills / Certifications

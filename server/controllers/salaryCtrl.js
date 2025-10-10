@@ -17,14 +17,25 @@ const addSalaryCtrl = async (req, res) => {
       remarks,
     } = req.body;
 
-    if (!employee ) {
-      return res.status(400).json({ success: false, message: "Employee, is required" });
+    if (!employee) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Employee is required" });
     }
 
     // Check if employee exists
     const empExists = await Employee.findById(employee);
     if (!empExists) {
-      return res.status(404).json({ success: false, message: "Employee not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Employee not found" });
+    }
+
+    // If salary already exists, prevent duplicate entry
+    if (empExists.salary) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Salary already assigned to this employee" });
     }
 
     // Create salary
@@ -42,8 +53,8 @@ const addSalaryCtrl = async (req, res) => {
       remarks,
     });
 
-    // Push salary ID to employee's salary array
-    empExists.salary.push(newSalary._id);
+    // Assign salary ID to employee
+    empExists.salary = newSalary._id;
     await empExists.save();
 
     res.status(201).json({ success: true, data: newSalary });
@@ -59,30 +70,32 @@ const editSalaryCtrl = async (req, res) => {
 
     const salary = await Salary.findById(id);
     if (!salary) {
-      return res.status(404).json({ success: false, message: "Salary record not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Salary record not found" });
     }
 
     const oldEmployeeId = salary.employee.toString();
     const newEmployeeId = req.body.employee;
 
-    // Update salary
+    // Update salary details
     const updatedSalary = await Salary.findByIdAndUpdate(
       id,
       { $set: req.body },
       { new: true, runValidators: true }
     );
 
-    // If employee changed, update salary arrays
+    // If employee is changed, update references
     if (newEmployeeId && newEmployeeId !== oldEmployeeId) {
       const oldEmployee = await Employee.findById(oldEmployeeId);
       if (oldEmployee) {
-        oldEmployee.salary = oldEmployee.salary.filter(s => s.toString() !== id);
+        oldEmployee.salary = null;
         await oldEmployee.save();
       }
 
       const newEmployee = await Employee.findById(newEmployeeId);
       if (newEmployee) {
-        newEmployee.salary.push(updatedSalary._id);
+        newEmployee.salary = updatedSalary._id;
         await newEmployee.save();
       }
     }
@@ -93,6 +106,7 @@ const editSalaryCtrl = async (req, res) => {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+
 
 
 
