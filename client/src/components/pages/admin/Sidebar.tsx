@@ -12,6 +12,7 @@ import {
   Building2,
   MessageSquare,
   Shield,
+  Calendar,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { setToken, setUser } from "@/redux/authSlice";
@@ -81,6 +82,20 @@ const Sidebar = () => {
       icon: BarChart3,
       label: "All Employee",
       color: "text-green-600",
+      permission: null,
+    },
+    {
+      to: "/admin/holiday-calendar",
+      icon: Calendar,
+      label: "Holiday Calendar",
+      color: "text-red-600",
+      permission: null,
+    },
+    {
+      to: "/admin/leave-approval",
+      icon: FileText,
+      label: "Leave Approval",
+      color: "text-purple-600",
       permission: null,
     },
   ];

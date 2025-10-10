@@ -38,6 +38,8 @@ cloudinaryConnect();
 app.use("/api/v1/auth", require("./routes/employeeRoute"));
 app.use("/api/v1/salary", require("./routes/salaryRoute"));
 app.use("/api/v1/image", require("./routes/imageRoute"));
+app.use("/api/v1/leave", require("./routes/leaveRoute"));
+app.use("/api/v1/holiday", require("./routes/holidayRoute"));
 
 
 app.get("/", (req, res) => {

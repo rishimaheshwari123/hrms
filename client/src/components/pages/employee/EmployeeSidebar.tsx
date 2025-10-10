@@ -12,6 +12,7 @@ import {
   Building2,
   MessageSquare,
   Shield,
+  Calendar,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { setToken, setUser } from "@/redux/authSlice";
@@ -81,6 +82,13 @@ const EmployeeSidebar = () => {
       icon: BarChart3,
       label: "My Profile",
       color: "text-green-600",
+      permission: null,
+    },
+    {
+      to: "/employee/leave-management",
+      icon: Calendar,
+      label: "Leave Management",
+      color: "text-purple-600",
       permission: null,
     },
   ];

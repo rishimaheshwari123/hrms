@@ -23,3 +23,16 @@ export const salary = {
   GET_SALARY: BASE_URL + "/salary/get",
 
 }
+
+export const leave = {
+  BALANCE: BASE_URL + "/leave/balance",
+  APPLY: BASE_URL + "/leave/apply",
+  DECISION: BASE_URL + "/leave/decision",
+  LIST: BASE_URL + "/leave/list",
+}
+
+export const holiday = {
+  UPSERT: BASE_URL + "/holiday/upsert",
+  DELETE: BASE_URL + "/holiday/delete",
+  LIST: BASE_URL + "/holiday/list",
+}

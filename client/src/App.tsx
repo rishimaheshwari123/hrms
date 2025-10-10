@@ -25,6 +25,9 @@ import AddEmployee from "./components/pages/admin/AddEmployee";
 import ViewEmployee from "./components/pages/admin/ViewEmployee";
 import MyProfile from "./components/pages/employee/MyProfile";
 import AdminSalary from "./components/pages/admin/AdminSallery";
+import LeaveManagement from "./components/pages/employee/LeaveManagement";
+import HolidayCalendar from "./components/pages/admin/HolidayCalendar";
+import LeaveApproval from "./components/pages/admin/LeaveApproval";
 
 const queryClient = new QueryClient();
 
@@ -74,6 +77,8 @@ const App = () => {
                     <Route path="view-employee/:id" element={<ViewEmployee />} />
                     <Route path="add-employee" element={<AddEmployee />} />
                     <Route path="salary-employee/:id" element={<AdminSalary />} />
+                    <Route path="holiday-calendar" element={<HolidayCalendar />} />
+                    <Route path="leave-approval" element={<LeaveApproval />} />
                   </Route>
                 )}
 
@@ -91,6 +96,7 @@ const App = () => {
                     <Route path="my-profile" element={<MyProfile />} />
                     <Route path="edit-employee/:id" element={<EditEmployee />} />
                     <Route path="bank-details/:id" element={<AdminSalary />} />
+                    <Route path="leave-management" element={<LeaveManagement />} />
                   </Route>
                 )}
 
