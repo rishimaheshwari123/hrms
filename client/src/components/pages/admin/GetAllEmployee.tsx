@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // React Router
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getAllEmployees, verifyEmployee } from "@/service/operations/auth";
 import {
@@ -20,10 +20,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { FaCheck, FaTimes, FaEye, FaEdit, FaMoneyBill } from "react-icons/fa";
 
 const GetAllEmployee = () => {
-  const navigate = useNavigate(); // useNavigate hook
-  const {token} = useSelector((state : RootState) => state.auth)
+  const navigate = useNavigate();
+  const { token } = useSelector((state: RootState) => state.auth);
   const [employees, setEmployees] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [filteredEmployees, setFilteredEmployees] = useState([]);
@@ -40,13 +41,13 @@ const GetAllEmployee = () => {
     fetchEmployees();
   }, []);
 
-  // Search on button click
   const handleSearch = () => {
-    const filtered = employees?.filter((emp) =>
-      emp?.name?.toLowerCase().includes(searchInput.toLowerCase()) ||
-      emp?.email?.toLowerCase().includes(searchInput.toLowerCase()) ||
-      emp?.phone?.toLowerCase().includes(searchInput.toLowerCase()) ||
-      emp?.employeeCode?.toLowerCase().includes(searchInput.toLowerCase())
+    const filtered = employees?.filter(
+      (emp) =>
+        emp?.name?.toLowerCase().includes(searchInput.toLowerCase()) ||
+        emp?.email?.toLowerCase().includes(searchInput.toLowerCase()) ||
+        emp?.phone?.toLowerCase().includes(searchInput.toLowerCase()) ||
+        emp?.employeeCode?.toLowerCase().includes(searchInput.toLowerCase())
     );
     setFilteredEmployees(filtered);
   };
@@ -59,12 +60,15 @@ const GetAllEmployee = () => {
   const handleEdit = (id) => {
     navigate(`/admin/edit-employee/${id}`);
   };
+
   const handleView = (id) => {
     navigate(`/admin/view-employee/${id}`);
   };
+
   const handleSalary = (id) => {
     navigate(`/admin/salary-employee/${id}`);
   };
+
   const handleAddEmployee = () => {
     navigate("/admin/add-employee");
   };
@@ -73,29 +77,29 @@ const GetAllEmployee = () => {
     <div className="p-6">
       <h1 className="text-2xl font-semibold mb-4">All Employees</h1>
 
-    <div className="mb-4 flex items-center justify-between gap-2">
-      {/* Search input on the left */}
-      <div className="flex items-center gap-2 flex-1">
-        <input
-          type="text"
-          placeholder="Search by name, email, phone or code"
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-          className="border rounded px-3 py-2 w-full md:w-80"
-        />
-        <Button onClick={handleSearch} className="px-4 py-2">
-          Search
-        </Button>
-      </div>
+      <div className="mb-4 flex items-center justify-between gap-2">
+        {/* Search Input */}
+        <div className="flex items-center gap-2 flex-1">
+          <input
+            type="text"
+            placeholder="Search by name, email, phone or code"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            className="border rounded px-3 py-2 w-full md:w-80"
+          />
+          <Button onClick={handleSearch} className="px-4 py-2">
+            Search
+          </Button>
+        </div>
 
-      {/* Add Employee button on the right */}
-      <button
-        onClick={handleAddEmployee}
-        className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition"
-      >
-        Add Employee
-      </button>
-    </div>
+        {/* Add Employee */}
+        <button
+          onClick={handleAddEmployee}
+          className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition"
+        >
+          Add Employee
+        </button>
+      </div>
 
       <div className="overflow-x-auto bg-white shadow rounded-lg">
         <Table>
@@ -118,7 +122,9 @@ const GetAllEmployee = () => {
                   <TableCell>{emp?.name || "-"}</TableCell>
                   <TableCell>{emp?.email || "-"}</TableCell>
                   <TableCell>{emp?.phone || "-"}</TableCell>
-                  <TableCell>{emp?.employeeCode || "Not verified yet"}</TableCell>
+                  <TableCell>
+                    {emp?.employeeCode || "Not verified yet"}
+                  </TableCell>
                   <TableCell>{emp?.employmentStatus || "-"}</TableCell>
                   <TableCell>
                     <span
@@ -132,47 +138,51 @@ const GetAllEmployee = () => {
                     </span>
                   </TableCell>
 
-                  {/* Action Dropdown + Edit Button */}
-                  <TableCell className="text-center flex justify-center gap-2">
+                  {/* Dropdown with all actions */}
+                  <TableCell className="text-center">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="outline">Action</Button>
+                        <Button variant="outline">Actions</Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => handleVerify(emp?._id, true)}>
-                          Approve
+                      <DropdownMenuContent align="end" className="w-40">
+                        <DropdownMenuItem
+                          onClick={() => handleVerify(emp?._id, true)}
+                          className="flex items-center gap-2"
+                        >
+                          <FaCheck className="text-green-600" /> Approve
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleVerify(emp?._id, false)}>
-                          Reject
+                        <DropdownMenuItem
+                          onClick={() => handleVerify(emp?._id, false)}
+                          className="flex items-center gap-2"
+                        >
+                          <FaTimes className="text-red-600" /> Reject
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => handleView(emp?._id)}
+                          className="flex items-center gap-2"
+                        >
+                          <FaEye className="text-blue-600" /> View
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => handleEdit(emp?._id)}
+                          className="flex items-center gap-2"
+                        >
+                          <FaEdit className="text-yellow-600" /> Edit
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => handleSalary(emp?._id)}
+                          className="flex items-center gap-2"
+                        >
+                          <FaMoneyBill className="text-green-700" /> Salary
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
-
-                    {/* Edit Button */}
-                    <Button
-                      variant="secondary"
-                      onClick={() => handleEdit(emp?._id)}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      onClick={() => handleView(emp?._id)}
-                    >
-                      View
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      onClick={() => handleSalary(emp?._id)}
-                    >
-                      Salary
-                    </Button>
                   </TableCell>
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell  className="text-center py-4">
+                <TableCell colSpan={7} className="text-center py-4">
                   No employees found
                 </TableCell>
               </TableRow>
