@@ -47,7 +47,7 @@ const HolidayCalendar = () => {
 
   const handleDelete = async (id: string) => {
     const res = await deleteHolidayAPI(id, token, user?._id);
-    if (res) fetchHolidays();
+    fetchHolidays();
   };
 
   return (
@@ -99,7 +99,7 @@ const HolidayCalendar = () => {
                   <div key={h._id} className="flex justify-between items-center p-2 border rounded bg-white">
                     <div>
                       <div className="font-medium">{h.title}</div>
-                      <div className="text-sm text-gray-600">{new Date(h.date).toLocaleDateString()} {h.recurrence !== "none" ? `(${h.recurrence})` : ""}</div>
+                      <div className="text-sm text-gray-600">{new Date(h.date).toLocaleDateString()} {h.recurring !== "none" ? `(${h.recurring})` : ""}</div>
                     </div>
                     <Button variant="destructive" onClick={() => handleDelete(h._id)}>Delete</Button>
                   </div>
