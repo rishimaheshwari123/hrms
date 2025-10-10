@@ -21,6 +21,9 @@ import EmployeeLayout from "./components/pages/employee/EmployeeLayout";
 import EmployeeDashboard from "./components/pages/employee/EmployeeDashboard";
 import GetAllEmployee from "./components/pages/admin/GetAllEmployee";
 import EditEmployee from "./components/pages/admin/EditEmployee";
+import AddEmployee from "./components/pages/admin/AddEmployee";
+import ViewEmployee from "./components/pages/admin/ViewEmployee";
+import MyProfile from "./components/pages/employee/MyProfile";
 
 const queryClient = new QueryClient();
 
@@ -67,6 +70,8 @@ const App = () => {
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="get-all-employee" element={<GetAllEmployee />} />
                     <Route path="edit-employee/:id" element={<EditEmployee />} />
+                    <Route path="view-employee/:id" element={<ViewEmployee />} />
+                    <Route path="add-employee" element={<AddEmployee />} />
                   </Route>
                 )}
 
@@ -81,6 +86,8 @@ const App = () => {
                     }
                   >
                     <Route path="dashboard" element={<EmployeeDashboard />} />
+                    <Route path="my-profile" element={<MyProfile />} />
+                    <Route path="edit-employee/:id" element={<EditEmployee />} />
                   </Route>
                 )}
 

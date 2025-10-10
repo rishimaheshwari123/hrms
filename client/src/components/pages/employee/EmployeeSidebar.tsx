@@ -76,6 +76,13 @@ const EmployeeSidebar = () => {
       color: "text-green-600",
       permission: null,
     },
+    {
+      to: "/employee/my-profile",
+      icon: BarChart3,
+      label: "My Profile",
+      color: "text-green-600",
+      permission: null,
+    },
   ];
 
   // Filter menu items based on user permissions

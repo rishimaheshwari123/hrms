@@ -59,24 +59,40 @@ const GetAllEmployee = () => {
   const handleEdit = (id) => {
     navigate(`/admin/edit-employee/${id}`);
   };
+  const handleView = (id) => {
+    navigate(`/admin/view-employee/${id}`);
+  };
+  const handleAddEmployee = () => {
+    navigate("/admin/add-employee");
+  };
 
   return (
     <div className="p-6">
       <h1 className="text-2xl font-semibold mb-4">All Employees</h1>
 
-      {/* Search Input with Button */}
-      <div className="mb-4 flex items-center gap-2">
+    <div className="mb-4 flex items-center justify-between gap-2">
+      {/* Search input on the left */}
+      <div className="flex items-center gap-2 flex-1">
         <input
           type="text"
           placeholder="Search by name, email, phone or code"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          className="border rounded px-3 py-2 w-full md:w-1/3"
+          className="border rounded px-3 py-2 w-full md:w-80"
         />
         <Button onClick={handleSearch} className="px-4 py-2">
           Search
         </Button>
       </div>
+
+      {/* Add Employee button on the right */}
+      <button
+        onClick={handleAddEmployee}
+        className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition"
+      >
+        Add Employee
+      </button>
+    </div>
 
       <div className="overflow-x-auto bg-white shadow rounded-lg">
         <Table>
@@ -136,6 +152,12 @@ const GetAllEmployee = () => {
                       onClick={() => handleEdit(emp?._id)}
                     >
                       Edit
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      onClick={() => handleView(emp?._id)}
+                    >
+                      View
                     </Button>
                   </TableCell>
                 </TableRow>
