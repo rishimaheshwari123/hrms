@@ -5,6 +5,10 @@ const BASE_URL = "http://localhost:8000/api/v1"
 export const endpoints = {
   LOGIN_API: BASE_URL + "/auth/login",
   SIGNUP_API: BASE_URL + "/auth/register",
+  GET_ALL_EMPLOYEE: BASE_URL + "/auth/getAll",
+  GET_SINGLE_EMPLOYEE: BASE_URL + "/auth/get",
+  VERIFY_EMPLOYEE: BASE_URL + "/auth/verify",
+  UPDATE_EMPLOYEE: BASE_URL + "/auth/update-employee",
 }
 
 export const image = {

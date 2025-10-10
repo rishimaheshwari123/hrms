@@ -76,6 +76,13 @@ const Sidebar = () => {
       color: "text-green-600",
       permission: null,
     },
+    {
+      to: "/admin/get-all-employee",
+      icon: BarChart3,
+      label: "All Employee",
+      color: "text-green-600",
+      permission: null,
+    },
   ];
 
   // Filter menu items based on user permissions

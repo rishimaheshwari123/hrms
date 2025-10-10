@@ -72,7 +72,7 @@ const editEmployeeCtrl = async (req, res) => {
     const { id } = req.params;
     const files = req.files;
 
-    const {
+    let {
       firstName,
       middleName,
       lastName,
@@ -83,7 +83,7 @@ const editEmployeeCtrl = async (req, res) => {
       nationality,
       email,
       workEmail,
-      personalPhone,
+      phone,
       alternatePhone,
       address,
       dateOfJoining,
@@ -101,10 +101,28 @@ const editEmployeeCtrl = async (req, res) => {
       performance,
     } = req.body;
 
+    // 🔹 Parse JSON fields if they are strings
+    try {
+      address = typeof address === "string" ? JSON.parse(address) : address;
+      skills = typeof skills === "string" ? JSON.parse(skills) : skills;
+      education = typeof education === "string" ? JSON.parse(education) : education;
+      certifications = typeof certifications === "string" ? JSON.parse(certifications) : certifications;
+      emergencyContact = typeof emergencyContact === "string" ? JSON.parse(emergencyContact) : emergencyContact;
+      performance = typeof performance === "string" ? JSON.parse(performance) : performance;
+    } catch (err) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid JSON in one of the fields",
+        error: err.message,
+      });
+    }
+
+    // 🔹 Build update object
     const updateData = {
       firstName,
       middleName,
       lastName,
+      name: `${firstName || ""} ${middleName || ""} ${lastName || ""}`.trim(),
       gender,
       dateOfBirth,
       maritalStatus,
@@ -112,7 +130,7 @@ const editEmployeeCtrl = async (req, res) => {
       nationality,
       email,
       workEmail,
-      personalPhone,
+      phone,
       alternatePhone,
       address,
       dateOfJoining,
@@ -130,33 +148,23 @@ const editEmployeeCtrl = async (req, res) => {
       performance,
     };
 
-    updateData.documents = updateData.documents || [];
-
+    // 🔹 Handle file uploads
     if (files?.panCard) {
-      const panCardUpload = await uploadImageToCloudinary(
-        files.panCard[0].path,
-        process.env.FOLDER_NAME
-      );
-      updateData.documents.push({
-        docType: "PAN Card",
-        docUrl: panCardUpload.secure_url,
-      });
+      const panCardUpload = await uploadImageToCloudinary(files.panCard, process.env.FOLDER_NAME);
+      updateData.panCard = panCardUpload.secure_url;
+    }
+    if (files?.photoUrl) {
+      const photoUpload = await uploadImageToCloudinary(files.photoUrl, process.env.FOLDER_NAME);
+      updateData.photoUrl = photoUpload.secure_url;
     }
 
-    if (files?.aadharCard) {
-      const aadharUpload = await uploadImageToCloudinary(
-        files.aadharCard[0].path,
-        process.env.FOLDER_NAME
-      );
-      updateData.documents.push({
-        docType: "Aadhar Card",
-        docUrl: aadharUpload.secure_url,
-      });
+    if (files?.adharCard) {
+      const aadharUpload = await uploadImageToCloudinary(files.adharCard, process.env.FOLDER_NAME);
+      updateData.adharCard = aadharUpload.secure_url;
     }
 
-    const updatedEmployee = await authModel.findByIdAndUpdate(id, updateData, {
-      new: true,
-    });
+    // 🔹 Update employee in DB
+    const updatedEmployee = await authModel.findByIdAndUpdate(id, updateData, { new: true });
 
     if (!updatedEmployee) {
       return res.status(404).json({ success: false, message: "Employee not found" });
@@ -168,10 +176,16 @@ const editEmployeeCtrl = async (req, res) => {
       employee: updatedEmployee,
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: "Error updating employee", error });
+    console.error("Error updating employee:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error updating employee",
+      error: error.message,
+    });
   }
 };
+
+
 
 const verifyEmployeeCtrl = async (req, res) => {
   try {
@@ -193,11 +207,16 @@ const verifyEmployeeCtrl = async (req, res) => {
       });
     }
 
-    // If activating and employeeCode doesn't exist, generate it
-    if (isActive && !updatedEmployee.employeeCode) {
-      const employeeCode = await getNextCounter("employee");
-      updatedEmployee.employeeCode = employeeCode;
+    if (isActive) {
+      // If activating and employeeCode doesn't exist
+      if (!updatedEmployee.employeeCode) {
+        const employeeCode = await getNextCounter("employee");
+        updatedEmployee.employeeCode = employeeCode;
+      }
       updatedEmployee.employmentStatus = "Active";
+    } else {
+      // If deactivating → mark as Reject
+      updatedEmployee.employmentStatus = "Reject";
     }
 
     updatedEmployee.isActive = isActive;
@@ -205,7 +224,7 @@ const verifyEmployeeCtrl = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: `Employee profile ${isActive ? "activated" : "deactivated"} successfully`,
+      message: `Employee profile ${isActive ? "activated" : "rejected"} successfully`,
       employee: updatedEmployee,
     });
   } catch (error) {
@@ -217,6 +236,7 @@ const verifyEmployeeCtrl = async (req, res) => {
     });
   }
 };
+
 
 const loginEmployeeCtrl = async (req, res) => {
   try {
@@ -286,10 +306,60 @@ const loginEmployeeCtrl = async (req, res) => {
 };
 
 
+const getAllEmployeesCtrl = async (req, res) => {
+  try {
+    const employees = await authModel.find()
+      .select("-password -token -salary -leaves") 
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: employees.length,
+      employees,
+    });
+  } catch (error) {
+    console.error("Error fetching employees:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching employees",
+      error: error.message,
+    });
+  }
+};
+
+const getEmployeeByIdCtrl = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const employee = await authModel.findById(id).select("-password");
+
+    if (!employee) {
+      return res.status(404).json({
+        success: false,
+        message: "Employee not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      employee,
+    });
+  } catch (error) {
+    console.error("Error fetching employee by ID:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching employee by ID",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   registerEmployeeCtrl,
   loginEmployeeCtrl,
   editEmployeeCtrl,
-  verifyEmployeeCtrl
+  verifyEmployeeCtrl,
+  getAllEmployeesCtrl,
+  getEmployeeByIdCtrl
 
 };

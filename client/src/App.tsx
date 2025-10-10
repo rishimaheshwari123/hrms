@@ -19,6 +19,8 @@ import Layout from "./components/pages/admin/Layout";
 import { RootState } from "./redux/store";
 import EmployeeLayout from "./components/pages/employee/EmployeeLayout";
 import EmployeeDashboard from "./components/pages/employee/EmployeeDashboard";
+import GetAllEmployee from "./components/pages/admin/GetAllEmployee";
+import EditEmployee from "./components/pages/admin/EditEmployee";
 
 const queryClient = new QueryClient();
 
@@ -63,6 +65,8 @@ const App = () => {
                     }
                   >
                     <Route path="dashboard" element={<Dashboard />} />
+                    <Route path="get-all-employee" element={<GetAllEmployee />} />
+                    <Route path="edit-employee/:id" element={<EditEmployee />} />
                   </Route>
                 )}
 

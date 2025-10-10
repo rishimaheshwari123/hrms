@@ -40,7 +40,7 @@ const employeeSchema = new mongoose.Schema(
     // 🔹 Contact Information
     email: { type: String },
     workEmail: { type: String, unique: true },
-    personalPhone: { type: String },
+    phone: { type: String },
     alternatePhone: { type: String },
     address: {
       line1: { type: String },
@@ -56,12 +56,12 @@ const employeeSchema = new mongoose.Schema(
     dateOfLeaving: { type: Date },
     employmentStatus: {
       type: String,
-      enum: ["Pending","Active", "On Leave", "Resigned", "Terminated", "Retired"],
+      enum: ["Pending","Active", "On Leave", "Resigned", "Terminated", "Retired", "Reject"],
       default: "Pending",
     },
     designation: { type: String },
     department: { type: String },
-    manager: { type: mongoose.Schema.Types.ObjectId, ref: "Employee" },
+    manager: { type: String },
     location: { type: String },
     employeeType: { type: String, enum: ["Permanent", "Contract", "Intern", "Part-Time"] },
 
@@ -96,13 +96,12 @@ const employeeSchema = new mongoose.Schema(
     },
 
     // 🔹 Documents
-    documents: [
-      {
-        docType: { type: String },
-        docUrl: { type: String },
-        uploadedAt: { type: Date, default: Date.now },
-      },
-    ],
+    adharCard: {
+      type :String
+    },
+    panCard: {
+      type :String
+    },
 
     // 🔹 Performance / Appraisal
     performance: {
