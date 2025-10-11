@@ -141,8 +141,8 @@ const LeaveManagement = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <Card className="lg:col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
+        <Card className="lg:col-span-2 lg:sticky lg:top-4">
           <CardHeader>
             <CardTitle>Apply Leave</CardTitle>
           </CardHeader>
@@ -154,6 +154,14 @@ const LeaveManagement = () => {
                   selected={selectedRange}
                   onSelect={setSelectedRange}
                   onMonthChange={(m: Date) => setCurrentMonth(m)}
+                  className="rounded-lg shadow-sm"
+                  classNames={{
+                    cell:
+                      "h-10 w-10 sm:h-11 sm:w-11 md:h-12 md:w-12 text-center text-sm p-0 relative",
+                    day:
+                      "h-10 w-10 sm:h-11 sm:w-11 md:h-12 md:w-12 p-0 font-normal aria-selected:opacity-100",
+                    caption_label: "text-base md:text-lg font-semibold",
+                  }}
                   modifiers={{
                     holiday: holidays.map(h => new Date(h.date)),
                     weekend: weekendDates,
@@ -200,7 +208,7 @@ const LeaveManagement = () => {
           <CardHeader>
             <CardTitle>My Leave Balance</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="max-h-[calc(100vh-8rem)] overflow-y-auto pr-2">
             <ul className="space-y-2">
               {Object.keys(balances || {}).map((t) => (
                 <li key={t} className="flex justify-between">
@@ -224,7 +232,7 @@ const LeaveManagement = () => {
         <CardHeader>
           <CardTitle>My Leaves</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="max-h-[calc(100vh-8rem)] overflow-y-auto pr-2">
           <div className="space-y-2">
             {myLeaves?.length ? (
               myLeaves.map((lv) => (

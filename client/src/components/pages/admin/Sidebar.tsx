@@ -122,16 +122,18 @@ const Sidebar = () => {
   return (
     <div
       ref={sidebarRef}
+      style={{
+        // Bind CSS var to match actual width for responsive content margin
+        "--sidebar-width": isCollapsed ? "5rem" : "16rem",
+      } as React.CSSProperties}
       className={`fixed h-screen top-0 z-50 ${
         isCollapsed ? "w-20" : "w-64"
-      } bg-white border-r border-gray-200 shadow-lg transition-all duration-300 flex flex-col`}
+      } bg-white/90 backdrop-blur-sm border-r border-gray-200 shadow-lg transition-all duration-300 flex flex-col`}
     >
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200">
         <div
-          className={`${
-            isCollapsed ? "hidden" : "flex"
-          } items-center space-x-2`}
+          className={`${isCollapsed ? "hidden" : "flex"} items-center space-x-2`}
         >
           <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-sm">A</span>
@@ -153,7 +155,7 @@ const Sidebar = () => {
         </Button>
       </div>
 
-      {/* Navigation - Added overflow-y-auto and h-full for vertical scrolling */}
+      {/* Navigation */}
       <nav className="p-4 space-y-2 overflow-y-auto h-full">
         {menuItems.map((item) => {
           const Icon = item.icon;
@@ -183,6 +185,16 @@ const Sidebar = () => {
                   >
                     {item.label}
                   </span>
+                  {/* Active pill */}
+                  {isCollapsed ? null : (
+                    <span
+                      className={`ml-auto text-xs px-2 py-0.5 rounded-full border ${
+                        isCollapsed ? "hidden" : "inline-block"
+                      } ${isCollapsed ? "" : "opacity-0 group-hover:opacity-100"}`}
+                    >
+                      Go
+                    </span>
+                  )}
                 </>
               )}
             </NavLink>

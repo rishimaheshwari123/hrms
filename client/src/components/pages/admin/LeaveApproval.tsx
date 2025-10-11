@@ -58,8 +58,8 @@ const LeaveApproval = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <Card className="lg:col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
+        <Card className="lg:col-span-2 lg:sticky lg:top-4">
           <CardHeader>
             <CardTitle>Leave Calendar</CardTitle>
           </CardHeader>
@@ -69,6 +69,14 @@ const LeaveApproval = () => {
               selected={selectedDate}
               onSelect={setSelectedDate as any}
               onMonthChange={(m: Date) => setCurrentMonth(m)}
+              className="rounded-lg shadow-sm"
+              classNames={{
+                cell:
+                  "h-10 w-10 sm:h-11 sm:w-11 md:h-12 md:w-12 text-center text-sm p-0 relative",
+                day:
+                  "h-10 w-10 sm:h-11 sm:w-11 md:h-12 md:w-12 p-0 font-normal aria-selected:opacity-100",
+                caption_label: "text-base md:text-lg font-semibold",
+              }}
               modifiers={{
                 holiday: holidays.map(h => new Date(h.date)),
                 weekend: weekendDates,
@@ -80,12 +88,12 @@ const LeaveApproval = () => {
             />
           </CardContent>
         </Card>
-
+    
         <Card>
           <CardHeader>
             <CardTitle>Pending Leave Requests</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="max-h-[calc(100vh-8rem)] overflow-y-auto pr-2">
             <div className="space-y-2">
               {pendingLeaves?.length ? (
                 pendingLeaves.map((lv) => (
