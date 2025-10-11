@@ -11,8 +11,7 @@ export async function upsertHoliday(payload, token) {
     const url = payload?.id ? `${UPSERT}/${payload.id}` : UPSERT;
     const payloadToSend = {
       ...payload,
-      // Map UI recurrence (none/annual) to server boolean `recurring`
-      recurring: payload?.recurrence && payload.recurrence !== "none",
+     
       createdBy: payload?.createdBy,
     };
     const response = await apiConnector(method, url, payloadToSend, {

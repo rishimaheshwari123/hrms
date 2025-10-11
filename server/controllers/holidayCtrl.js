@@ -4,8 +4,8 @@ const Employee = require("../models/employeeModel");
 // Create or update a holiday
 const upsertHolidayCtrl = async (req, res) => {
   try {
-    const { id } = req.params; // optional
-    const { title, date, description, recurring, createdBy } = req.body;
+    const { id } = req.params;
+    const { title, date, description, recurrence, createdBy } = req.body;
 
     if (!title || !date) {
       return res.status(400).json({ success: false, message: "title and date are required" });
@@ -22,11 +22,11 @@ const upsertHolidayCtrl = async (req, res) => {
     if (id) {
       holiday = await Holiday.findByIdAndUpdate(
         id,
-        { title, date, description, recurring, createdBy },
+        { title, date, description, recurring: recurrence, createdBy },
         { new: true }
       );
     } else {
-      holiday = await Holiday.create({ title, date, description, recurring, createdBy });
+      holiday = await Holiday.create({ title, date, description, recurring: recurrence, createdBy });
     }
 
     return res.status(200).json({ success: true, data: holiday });
@@ -35,6 +35,7 @@ const upsertHolidayCtrl = async (req, res) => {
     return res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+
 
 // Delete a holiday
 const deleteHolidayCtrl = async (req, res) => {
