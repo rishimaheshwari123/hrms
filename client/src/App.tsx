@@ -9,6 +9,7 @@ import OpenRoute from "@/components/auth/OpenRoute";
 import PrivateRoute from "@/components/auth/PrivateRoute";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import SalaryHistory from "./components/pages/employee/SalaryHistory";
 
 // Admin Components
 import Dashboard from "./components/pages/admin/Dashboard";
@@ -28,6 +29,8 @@ import AdminSalary from "./components/pages/admin/AdminSallery";
 import LeaveManagement from "./components/pages/employee/LeaveManagement";
 import HolidayCalendar from "./components/pages/admin/HolidayCalendar";
 import LeaveApproval from "./components/pages/admin/LeaveApproval";
+import EmployeePayslips from "./components/pages/employee/EmployeePayslips";
+import RulesManagement from "./components/pages/admin/RulesManagement";
 
 const queryClient = new QueryClient();
 
@@ -79,6 +82,7 @@ const App = () => {
                     <Route path="salary-employee/:id" element={<AdminSalary />} />
                     <Route path="holiday-calendar" element={<HolidayCalendar />} />
                     <Route path="leave-approval" element={<LeaveApproval />} />
+                    <Route path="rules-management" element={<RulesManagement />} />
                   </Route>
                 )}
 
@@ -97,6 +101,8 @@ const App = () => {
                     <Route path="edit-employee/:id" element={<EditEmployee />} />
                     <Route path="bank-details/:id" element={<AdminSalary />} />
                     <Route path="leave-management" element={<LeaveManagement />} />
+                    <Route path="payslips" element={<EmployeePayslips />} />
+                    <Route path="salary-history" element={<SalaryHistory />} />
                   </Route>
                 )}
 

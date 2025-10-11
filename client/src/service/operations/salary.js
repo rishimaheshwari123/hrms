@@ -2,7 +2,7 @@ import { apiConnector } from "../apiConnector";
 import { salary } from "../apis";
 import { toast } from "react-toastify";
 
-const { CREATE_SALARY, UPDATE_SALARY, GET_SALARY } = salary;
+const { CREATE_SALARY, UPDATE_SALARY, GET_SALARY, HISTORY } = salary;
 
 // 🔹 Create Salary
 export async function createSalaryAPI(data, token) {
@@ -43,10 +43,13 @@ export async function updateSalaryAPI(data, token) {
   const toastId = toast.loading("Updating salary record...");
 
   try {
+    // Ensure we send the salary record id as URL param per server route: PUT /api/v1/salary/update/:id
+    const { id, ...payload } = data;
+
     const response = await apiConnector(
       "PUT",
-      UPDATE_SALARY,
-      data,
+      `${UPDATE_SALARY}/${id}`,
+      payload,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -100,5 +103,31 @@ export async function getSalaryAPI(id, token) {
       error?.response?.data?.message ||
         "Failed to fetch salary. Please try again later."
     );
+  }
+}
+
+export async function getSalaryHistoryAPI(employeeId, token) {
+  const toastId = toast.loading("Fetching salary history...");
+  try {
+    const response = await apiConnector(
+      "GET",
+      `${HISTORY}/${employeeId}`,
+      null,
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
+
+    if (!response?.data?.success) {
+      throw new Error(response?.data?.message || "Failed to fetch salary history");
+    }
+
+    toast.dismiss(toastId);
+    return response?.data?.data || [];
+  } catch (error) {
+    console.error("GET SALARY HISTORY ERROR:", error);
+    toast.dismiss(toastId);
+    toast.error(error?.response?.data?.message || "Failed to fetch salary history. Please try again later.");
+    return [];
   }
 }

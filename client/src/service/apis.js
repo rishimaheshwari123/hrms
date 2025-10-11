@@ -17,12 +17,11 @@ export const image = {
 
 
 export const salary = {
-  
- CREATE_SALARY: BASE_URL + "/salary/create",
+  CREATE_SALARY: BASE_URL + "/salary/create",
   UPDATE_SALARY: BASE_URL + "/salary/update",
   GET_SALARY: BASE_URL + "/salary/get",
-
-}
+  HISTORY: BASE_URL + "/salary/history", // new
+};
 
 export const leave = {
   BALANCE: BASE_URL + "/leave/balance",
@@ -35,4 +34,23 @@ export const holiday = {
   UPSERT: BASE_URL + "/holiday/upsert",
   DELETE: BASE_URL + "/holiday/delete",
   LIST: BASE_URL + "/holiday/list",
+}
+
+// Add payslip endpoints
+export const payslip = {
+  LIST: BASE_URL + "/payslip/list",
+  GENERATE: BASE_URL + "/payslip/generate",
+}
+
+// Add payroll endpoints for run & list
+export const payroll = {
+  RUN: BASE_URL + "/payroll/run",
+  LIST: BASE_URL + "/payroll/list",
+}
+
+export const rules = {
+  LIST: BASE_URL + "/rules/list",
+  CREATE: BASE_URL + "/rules/create",
+  UPDATE: BASE_URL + "/rules/update",
+  DELETE: BASE_URL + "/rules/delete",
 }

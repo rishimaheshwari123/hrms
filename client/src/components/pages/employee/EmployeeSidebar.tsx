@@ -91,6 +91,20 @@ const EmployeeSidebar = () => {
       color: "text-purple-600",
       permission: null,
     },
+    {
+      to: "/employee/payslips",
+      icon: FileText,
+      label: "Payslips",
+      color: "text-indigo-600",
+      permission: null,
+    },
+    {
+      to: "/employee/salary-history",
+      icon: FileText,
+      label: "Salary History",
+      color: "text-teal-600",
+      permission: null,
+    },
   ];
 
   // Filter menu items based on user permissions

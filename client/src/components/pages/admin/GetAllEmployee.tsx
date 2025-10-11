@@ -177,6 +177,8 @@ const GetAllEmployee = () => {
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
+                    {/* Quick access button to manage salary without opening dropdown */}
+                    {/* Removed quick access Salary button to resolve dev parser error */}
                   </TableCell>
                 </TableRow>
               ))

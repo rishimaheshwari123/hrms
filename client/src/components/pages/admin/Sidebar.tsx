@@ -13,6 +13,8 @@ import {
   MessageSquare,
   Shield,
   Calendar,
+  Settings,
+  Wallet
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { setToken, setUser } from "@/redux/authSlice";
@@ -79,9 +81,16 @@ const Sidebar = () => {
     },
     {
       to: "/admin/get-all-employee",
-      icon: BarChart3,
+      icon: Users,
       label: "All Employee",
       color: "text-green-600",
+      permission: null,
+    },
+    {
+      to: "/admin/get-all-employee",
+      icon: Wallet,
+      label: "Salary Management",
+      color: "text-emerald-600",
       permission: null,
     },
     {
@@ -96,6 +105,13 @@ const Sidebar = () => {
       icon: FileText,
       label: "Leave Approval",
       color: "text-purple-600",
+      permission: null,
+    },
+    {
+      to: "/admin/rules-management",
+      icon: Settings,
+      label: "Rules Management",
+      color: "text-indigo-600",
       permission: null,
     },
   ];

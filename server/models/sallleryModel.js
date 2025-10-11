@@ -6,6 +6,10 @@ const salarySchema = new mongoose.Schema(
     basic: { type: Number,  },
     hra: { type: Number },
     allowance: { type: Number },
+    // Added explicit components to match payslip structure
+    conveyance: { type: Number },
+    specialAllowance: { type: Number },
+    mealAllowance: { type: Number },
     grossSalary: { type: Number },
     netSalary: { type: Number },
     currency: { type: String, default: "INR" },
