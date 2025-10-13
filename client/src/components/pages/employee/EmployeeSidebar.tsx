@@ -105,6 +105,13 @@ const EmployeeSidebar = () => {
       color: "text-teal-600",
       permission: null,
     },
+    {
+      to: "/employee/tasks",
+      icon: MessageSquare,
+      label: "Tasks",
+      color: "text-orange-600",
+      permission: null,
+    },
   ];
 
   // Filter menu items based on user permissions

@@ -14,6 +14,8 @@ import SalaryHistory from "./components/pages/employee/SalaryHistory";
 // Admin Components
 import Dashboard from "./components/pages/admin/Dashboard";
 import Layout from "./components/pages/admin/Layout";
+import AdminTasks from "./components/pages/admin/AdminTasks";
+import AdminActivities from "./components/pages/admin/AdminActivities";
 
 // Employee Components
 
@@ -31,6 +33,7 @@ import HolidayCalendar from "./components/pages/admin/HolidayCalendar";
 import LeaveApproval from "./components/pages/admin/LeaveApproval";
 import EmployeePayslips from "./components/pages/employee/EmployeePayslips";
 import RulesManagement from "./components/pages/admin/RulesManagement";
+import EmployeeTasks from "./components/pages/employee/EmployeeTasks";
 
 const queryClient = new QueryClient();
 
@@ -83,6 +86,8 @@ const App = () => {
                     <Route path="holiday-calendar" element={<HolidayCalendar />} />
                     <Route path="leave-approval" element={<LeaveApproval />} />
                     <Route path="rules-management" element={<RulesManagement />} />
+                    <Route path="tasks" element={<AdminTasks />} />
+                    <Route path="activities" element={<AdminActivities />} />
                   </Route>
                 )}
 
@@ -103,6 +108,7 @@ const App = () => {
                     <Route path="leave-management" element={<LeaveManagement />} />
                     <Route path="payslips" element={<EmployeePayslips />} />
                     <Route path="salary-history" element={<SalaryHistory />} />
+                    <Route path="tasks" element={<EmployeeTasks />} />
                   </Route>
                 )}
 

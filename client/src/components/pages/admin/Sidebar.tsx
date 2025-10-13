@@ -107,6 +107,21 @@ const Sidebar = () => {
       color: "text-purple-600",
       permission: null,
     },
+    // New items
+    {
+      to: "/admin/tasks",
+      icon: FileText,
+      label: "Tasks",
+      color: "text-orange-600",
+      permission: null,
+    },
+    {
+      to: "/admin/activities",
+      icon: MessageSquare,
+      label: "Activities",
+      color: "text-teal-600",
+      permission: null,
+    },
     {
       to: "/admin/rules-management",
       icon: Settings,
