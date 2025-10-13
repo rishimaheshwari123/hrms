@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 import { apiConnector } from "@/service/apiConnector";
 import { payroll, payslip } from "@/service/apis";
 
@@ -309,6 +309,10 @@ const AdminSalary = () => {
                         { employeeId, month, year, processedBy: user?._id, rounding: "nearest" },
                         { headers: { Authorization: `Bearer ${token}` } }
                       );
+                      if (runRes.data?.success === false) {
+          toast.error(runRes.data.message || "Payroll already processed for this month");
+          return;
+        }
                       const payslipId = runRes.data?.data?.payslip?._id;
                       if (!payslipId) {
                         toast.error("Failed to run payroll");
