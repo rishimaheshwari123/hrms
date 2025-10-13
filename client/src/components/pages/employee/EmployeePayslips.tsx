@@ -91,61 +91,90 @@ const EmployeePayslips: React.FC = () => {
         <h1 className="text-2xl font-semibold">My Payslips</h1>
         <Button onClick={fetchSlips} variant="secondary">Refresh</Button>
       </div>
-
-      <Card className="p-4">
-        {loading ? (
-          <p>Loading payslips...</p>
-        ) : slips.length === 0 ? (
-          <p>No payslips found.</p>
-        ) : (
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-gray-50">
-                <TableHead>Month</TableHead>
-                <TableHead>Year</TableHead>
-                <TableHead>Gross</TableHead>
-                <TableHead>Deductions</TableHead>
-                <TableHead>Net Pay</TableHead>
-                <TableHead>PDF</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {slips.map((s) => (
-                <TableRow key={s._id}>
-                  <TableCell>{monthNames[(s.month ?? 1) - 1] || s.month}</TableCell>
-                  <TableCell>{s.year}</TableCell>
-                  <TableCell>₹{s.gross}</TableCell>
-                  <TableCell>
-                    <Badge variant="secondary">₹{s.deductions}</Badge>
-                  </TableCell>
-                  <TableCell className="font-medium">₹{s.netPay}</TableCell>
-                  <TableCell>
-                    {s.pdfUrl ? (
-                      <a
-                        href={s.pdfUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800"
-                      >
-                        <FileDown className="h-4 w-4" /> Download
-                      </a>
-                    ) : (
-                      <Button
-                        onClick={() => handleGenerate(s._id)}
-                        className="inline-flex items-center gap-2"
-                      >
-                        <FilePlus className="h-4 w-4" /> Generate PDF
-                      </Button>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-      </Card>
-    </div>
-  );
+      {slips.length > 0 && (
+        <Card className="p-4 mb-4">
+          <h2 className="text-lg font-semibold mb-2">Latest Payslip Summary</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <p className="text-sm text-gray-600">Total Salary (Structure)</p>
+              <p className="text-xl font-bold">₹{Number(slips[0]?.grossSalary || 0)}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-600">Leave Deductions</p>
+              <p className="text-xl font-bold text-red-700">₹{Math.max(Number(slips[0]?.grossSalary || 0) - Number(slips[0]?.gross || 0), 0)}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-600">Net Pay (Payable)</p>
+              <p className="text-xl font-bold text-green-700">₹{Number(slips[0]?.netPay || 0)}</p>
+            </div>
+          </div>
+        </Card>
+      )}
+ 
+       <Card className="p-4">
+         {loading ? (
+           <p>Loading payslips...</p>
+         ) : slips.length === 0 ? (
+           <p>No payslips found.</p>
+         ) : (
+           <Table>
+             <TableHeader>
+               <TableRow className="bg-gray-50">
+                 <TableHead>Month</TableHead>
+                 <TableHead>Year</TableHead>
+-                <TableHead>Total Salary</TableHead>
+-                <TableHead>Gross After Leaves</TableHead>
+-                <TableHead>Deductions</TableHead>
+-                <TableHead>Net Pay (Payable)</TableHead>
++                <TableHead>Total Salary</TableHead>
++                <TableHead>Leave Deductions</TableHead>
++                <TableHead>Net Pay (Payable)</TableHead>
+                 <TableHead>PDF</TableHead>
+               </TableRow>
+             </TableHeader>
+             <TableBody>
+               {slips.map((s) => (
+                 <TableRow key={s._id}>
+                   <TableCell>{monthNames[(s.month ?? 1) - 1] || s.month}</TableCell>
+                   <TableCell>{s.year}</TableCell>
+-                  <TableCell>₹{s.grossSalary ?? 0}</TableCell>
+-                  <TableCell>₹{s.gross ?? 0}</TableCell>
+-                  <TableCell>
+-                    <Badge variant="secondary">₹{s.deductions}</Badge>
+-                  </TableCell>
+-                  <TableCell className="font-medium">₹{s.netPay}</TableCell>
++                  <TableCell>₹{s.grossSalary ?? 0}</TableCell>
++                  <TableCell>
++                    <Badge variant="destructive">₹{Math.max((s.grossSalary ?? 0) - (s.gross ?? 0), 0)}</Badge>
++                  </TableCell>
++                  <TableCell className="font-medium">₹{s.netPay}</TableCell>
+                   <TableCell>
+                     {s.pdfUrl ? (
+                       <a
+                         href={s.pdfUrl}
+                         target="_blank"
+                         rel="noreferrer"
+                         className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800"
+                       >
+                         <FileDown className="h-4 w-4" /> Download
+                       </a>
+                     ) : (
+                       <Button
+                         onClick={() => handleGenerate(s._id)}
+                         className="inline-flex items-center gap-2"
+                       >
+                         <FilePlus className="h-4 w-4" /> Generate PDF
+                       </Button>
+                     )}
+                   </TableCell>
+                 </TableRow>
+               ))}
+             </TableBody>
+           </Table>
+         )}
+       </Card>
+     </div>
+   );
 };
 
 export default EmployeePayslips;
