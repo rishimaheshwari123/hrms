@@ -82,7 +82,7 @@ const EmployeeDashboard: React.FC = () => {
   const acceptTask = async (taskId: string) => {
     try {
       setLoading(true);
-      await updateTaskAPI(taskId, { status: "accepted", acceptedAt: new Date().toISOString(), activityType: "task.accepted", activityMessage: `Task accepted by employee ${employeeId}` }, headers);
+      await updateTaskAPI(taskId, { status: "accepted", acceptedAt: new Date().toISOString(), activityType: "task_accepted", activityMessage: `Task accepted by employee ${employeeId}` }, headers);
       const res = await listTasksForEmployeeAPI(employeeId, headers);
       const data = res?.data?.tasks ?? res?.data?.data ?? res?.data ?? [];
       setTasks(Array.isArray(data) ? data : []);
@@ -96,7 +96,7 @@ const EmployeeDashboard: React.FC = () => {
   const completeTask = async (taskId: string) => {
     try {
       setLoading(true);
-      await updateTaskAPI(taskId, { status: "done", completedAt: new Date().toISOString(), activityType: "task.completed", activityMessage: `Task marked complete by employee ${employeeId}` }, headers);
+      await updateTaskAPI(taskId, { status: "done", completedAt: new Date().toISOString(), activityType: "task_completed", activityMessage: `Task marked complete by employee ${employeeId}` }, headers);
       const res = await listTasksForEmployeeAPI(employeeId, headers);
       const data = res?.data?.tasks ?? res?.data?.data ?? res?.data ?? [];
       setTasks(Array.isArray(data) ? data : []);

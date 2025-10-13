@@ -12,7 +12,7 @@ const cron = require("node-cron");
 
 dotenv.config();
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 8000;
 connectDB();
 
 app.use(express.json({ limit: "500mb" }));

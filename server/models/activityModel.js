@@ -4,20 +4,7 @@ const activitySchema = new mongoose.Schema(
   {
     actor: { type: mongoose.Schema.Types.ObjectId, ref: "Employee" },
     targetEmployee: { type: mongoose.Schema.Types.ObjectId, ref: "Employee" },
-    type: {
-      type: String,
-      enum: [
-        "task_created",
-        "task_updated",
-        "task_completed",
-        "leave_applied",
-        "leave_approved",
-        "leave_rejected",
-        "salary_updated",
-        "payroll_run",
-      ],
-      required: true,
-    },
+    type: { type: String, required: true },
     message: { type: String },
     meta: { type: Object },
     seenBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "Employee" }],

@@ -113,7 +113,7 @@ const AdminTasks: React.FC = () => {
       setLoading(true);
       setError("");
       const assignedById = (user as any)?._id || (user as any)?.id;
-      const payload = { title, description, assignedTo, dueDate, priority, assignedBy: assignedById, taskCode: generateTaskCode() };
+      const payload = { title, description, assignedTo, dueDate, priority, assignedBy: assignedById };
       await createTaskAPI(payload, headers);
       setTitle("");
       setDescription("");
@@ -174,7 +174,7 @@ const AdminTasks: React.FC = () => {
       const adminId = (user as any)?._id || (user as any)?.id;
       await updateTaskAPI(String(selectedTask?._id || selectedTask?.id), {
         $push: { comments: { type: "note", text: adminNote.trim(), by: adminId, role: "admin", at: new Date().toISOString() } },
-        activityType: "task.note",
+        activityType: "task_note",
         activityMessage: `Admin added note on task ${selectedTask?.title}`,
       }, headers);
       setAdminNote("");
@@ -197,7 +197,7 @@ const AdminTasks: React.FC = () => {
       const adminId = (user as any)?._id || (user as any)?.id;
       await updateTaskAPI(String(selectedTask?._id || selectedTask?.id), {
         $push: { comments: { type: "reply", text, by: adminId, role: "admin", replyTo: doubt?._id, at: new Date().toISOString() } },
-        activityType: "task.reply",
+        activityType: "task_reply",
         activityMessage: `Admin replied to doubt on task ${selectedTask?.title}`,
       }, headers);
       setReplyTexts((prev) => ({ ...prev, [String(doubt?._id)]: "" }));
@@ -268,9 +268,7 @@ const AdminTasks: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow>
--              <TableHead>ID</TableHead>
--              <TableHead>Code / ID</TableHead>
-+              <TableHead>Code / ID</TableHead>
+              <TableHead>Code / ID</TableHead>
               <TableHead>Title</TableHead>
               <TableHead>Assigned To</TableHead>
               <TableHead>Status</TableHead>

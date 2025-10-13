@@ -72,7 +72,7 @@ const EmployeeTasks: React.FC = () => {
   const acceptTask = async (taskId: string) => {
     try {
       setLoading(true);
-      await updateTaskAPI(taskId, { status: "accepted", acceptedAt: new Date().toISOString(), activityType: "task.accepted", activityMessage: `Task accepted by employee ${employeeId}` }, headers);
+      await updateTaskAPI(taskId, { status: "accepted", acceptedAt: new Date().toISOString(), activityType: "task_accepted", activityMessage: `Task accepted by employee ${employeeId}` }, headers);
       await fetchTasks();
     } catch (err: any) {
       setError(err?.message || "Failed to accept task");
@@ -87,7 +87,7 @@ const EmployeeTasks: React.FC = () => {
     try {
       setLoading(true);
       // Backend should append a new doubt entry to the task
-      await updateTaskAPI(taskId, { $push: { doubts: { text, by: employeeId, at: new Date().toISOString() } }, activityType: "task.doubt", activityMessage: `Doubt raised by employee ${employeeId}` }, headers);
+      await updateTaskAPI(taskId, { $push: { doubts: { text, by: employeeId, at: new Date().toISOString() } }, activityType: "task_doubt", activityMessage: `Doubt raised by employee ${employeeId}` }, headers);
       setDoubts((prev) => ({ ...prev, [taskId]: "" }));
       setModalDoubt("");
       // Optimistic update if viewing this task
