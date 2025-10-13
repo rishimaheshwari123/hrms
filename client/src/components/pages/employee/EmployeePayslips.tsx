@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { listPayslipsAPI, generatePayslipAPI } from "@/service/operations/payslip";
+import { listPayslipsAPI } from "@/service/operations/payslip";
+import { apiConnector } from "@/service/apiConnector";
+import { payslip } from "@/service/apis";
+import { toast } from "react-toastify";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -74,9 +77,12 @@ const EmployeePayslips: React.FC = () => {
       a.click();
       a.remove();
       window.URL.revokeObjectURL(url);
-    } catch (e) {
-      // error handled in service via toast or here
-    }
++      toast.success("Payslip PDF generated");
+     } catch (e: any) {
+-      // error handled in service via toast or here
++      console.error("EMP GENERATE PAYSLIP ERROR:", e);
++      toast.error(e?.response?.data?.message || "Failed to generate payslip PDF.");
+     }
   };
 
   return (
