@@ -102,7 +102,6 @@ const SalaryHistory: React.FC = () => {
               })}
             </tbody>
           </table>
-          <p className="text-xs text-gray-500 mt-2">Tip: Green shows increment, Red shows decrement. Format: "pahle → ab (delta)".</p>
         </div>
       )}
     </div>

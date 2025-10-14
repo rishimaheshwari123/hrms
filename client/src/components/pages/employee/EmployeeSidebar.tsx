@@ -13,6 +13,7 @@ import {
   MessageSquare,
   Shield,
   Calendar,
+  CheckSquare,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { setToken, setUser } from "@/redux/authSlice";
@@ -105,10 +106,17 @@ const EmployeeSidebar = () => {
       color: "text-teal-600",
       permission: null,
     },
+  {
+  to: "/employee/tasks",
+  icon: CheckSquare,
+  label: "Tasks",
+  color: "text-orange-600",
+  permission: null,
+},
     {
-      to: "/employee/tasks",
+      to: "/employee/chats",
       icon: MessageSquare,
-      label: "Tasks",
+      label: "Chats",
       color: "text-orange-600",
       permission: null,
     },

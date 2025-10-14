@@ -34,16 +34,17 @@ import LeaveApproval from "./components/pages/admin/LeaveApproval";
 import EmployeePayslips from "./components/pages/employee/EmployeePayslips";
 import RulesManagement from "./components/pages/admin/RulesManagement";
 import EmployeeTasks from "./components/pages/employee/EmployeeTasks";
+import useSocket from "./socket io/useSocket";
+import AdminChatsApp from "./components/pages/admin/chat/MainChat";
 
 const queryClient = new QueryClient();
 
 const App = () => {
   const { user } = useSelector((state: RootState) => state.auth); // <-- user from redux store
-
+   useSocket()
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <BrowserRouter>
           <div className="min-h-screen flex flex-col">
             <main className="flex-1">
               <Routes>
@@ -88,6 +89,7 @@ const App = () => {
                     <Route path="rules-management" element={<RulesManagement />} />
                     <Route path="tasks" element={<AdminTasks />} />
                     <Route path="activities" element={<AdminActivities />} />
+                    <Route path="chats" element={<AdminChatsApp />} />
                   </Route>
                 )}
 
@@ -109,6 +111,8 @@ const App = () => {
                     <Route path="payslips" element={<EmployeePayslips />} />
                     <Route path="salary-history" element={<SalaryHistory />} />
                     <Route path="tasks" element={<EmployeeTasks />} />
+                                        <Route path="chats" element={<AdminChatsApp />} />
+
                   </Route>
                 )}
 
@@ -117,7 +121,6 @@ const App = () => {
               </Routes>
             </main>
           </div>
-        </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
   );
