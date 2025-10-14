@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { listTasksForEmployeeAPI, updateTaskAPI } from "@/service/task";
 import { listActivitiesForEmployeeAPI } from "@/service/activity";
+import { toast } from "react-toastify";
 
 const EmployeeTasks: React.FC = () => {
   const { user, token } = useSelector((state: RootState) => state.auth);
@@ -97,6 +98,8 @@ const EmployeeTasks: React.FC = () => {
         return { ...prev, doubts: [...(prev?.doubts || []), newD] };
       });
       await fetchTasks();
+            toast.success("Doubt Send Successfully!")
+
     } catch (err: any) {
       setError(err?.message || "Failed to submit doubt");
     } finally {

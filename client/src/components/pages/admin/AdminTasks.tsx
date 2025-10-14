@@ -10,6 +10,7 @@ import { getAllEmployees } from "@/service/operations/auth";
 import { createTaskAPI, listAllTasksAPI, updateTaskAPI } from "@/service/task";
 import { useMemo } from "react";
 import { listActivitiesAdminAPI } from "@/service/activity";
+import { toast } from "react-toastify";
 
 const AdminTasks: React.FC = () => {
   const { token, user } = useSelector((state: RootState) => state.auth);
@@ -141,6 +142,7 @@ const AdminTasks: React.FC = () => {
     try {
       await updateTaskAPI(taskId, { status: "approved", reviewedAt: new Date().toISOString(), reviewNotes: reviewNotes[taskId] || "" }, headers);
       fetchTasks();
+      toast.success("task Approved")
     } catch (err: any) {
       setError(err?.message || "Failed to approve task");
     }
@@ -150,6 +152,8 @@ const AdminTasks: React.FC = () => {
     try {
       await updateTaskAPI(taskId, { status: "rejected", reviewedAt: new Date().toISOString(), reviewNotes: reviewNotes[taskId] || "" }, headers);
       fetchTasks();
+            toast.success("Task Rejected")
+
     } catch (err: any) {
       setError(err?.message || "Failed to reject task");
     }
