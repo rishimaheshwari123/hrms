@@ -64,6 +64,7 @@ app.use("/api/v1/payroll", require("./routes/payrollRoute"));
 app.use("/api/v1/payslip", require("./routes/payslipRoute"));
 app.use("/api/v1/tasks", require("./routes/taskRoute"));
 app.use("/api/v1/activities", require("./routes/activityRoute"));
+app.use("/api/v1/timesheet", require("./routes/timesheetRoute"));
 // Serve generated payslip PDFs statically
 app.use("/payslips", express.static(path.join(__dirname, "payslips")));
 

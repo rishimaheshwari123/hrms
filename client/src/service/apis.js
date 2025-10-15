@@ -48,6 +48,16 @@ export const payroll = {
   LIST: BASE_URL + "/payroll/list",
 }
 
+// Timesheet endpoints
+export const timesheet = {
+  CREATE: BASE_URL + "/timesheet/entry",
+  UPDATE: (id) => `${BASE_URL}/timesheet/entry/${id}`,
+  MY: BASE_URL + "/timesheet/me",
+  ADMIN: BASE_URL + "/timesheet/admin",
+  EMPLOYEE: (id) => `${BASE_URL}/timesheet/employee/${id}`,
+  UPDATE_ADMIN: (id) => `${BASE_URL}/timesheet/admin/${id}`,
+}
+
 export const rules = {
   LIST: BASE_URL + "/rules/list",
   CREATE: BASE_URL + "/rules/create",

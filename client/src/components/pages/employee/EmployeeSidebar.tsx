@@ -106,6 +106,13 @@ const EmployeeSidebar = () => {
       color: "text-teal-600",
       permission: null,
     },
+    {
+      to: "/employee/timesheet",
+      icon: FileText,
+      label: "Timesheet",
+      color: "text-emerald-600",
+      permission: null,
+    },
   {
   to: "/employee/tasks",
   icon: CheckSquare,

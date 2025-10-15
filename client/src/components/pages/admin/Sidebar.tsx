@@ -115,6 +115,13 @@ const Sidebar = () => {
       color: "text-orange-600",
       permission: null,
     },
+    {
+      to: "/admin/timesheets",
+      icon: FileText,
+      label: "Timesheets",
+      color: "text-teal-600",
+      permission: null,
+    },
     // {
     //   to: "/admin/activities",
     //   icon: MessageSquare,

@@ -36,6 +36,8 @@ import RulesManagement from "./components/pages/admin/RulesManagement";
 import EmployeeTasks from "./components/pages/employee/EmployeeTasks";
 import useSocket from "./socket io/useSocket";
 import AdminChatsApp from "./components/pages/admin/chat/MainChat";
+import AdminTimesheets from "./components/pages/admin/AdminTimesheets";
+import EmployeeTimesheet from "./components/pages/employee/EmployeeTimesheet";
 
 const queryClient = new QueryClient();
 
@@ -89,6 +91,7 @@ const App = () => {
                     <Route path="rules-management" element={<RulesManagement />} />
                     <Route path="tasks" element={<AdminTasks />} />
                     <Route path="activities" element={<AdminActivities />} />
+                    <Route path="timesheets" element={<AdminTimesheets />} />
                     <Route path="chats" element={<AdminChatsApp />} />
                   </Route>
                 )}
@@ -111,6 +114,7 @@ const App = () => {
                     <Route path="payslips" element={<EmployeePayslips />} />
                     <Route path="salary-history" element={<SalaryHistory />} />
                     <Route path="tasks" element={<EmployeeTasks />} />
+                    <Route path="timesheet" element={<EmployeeTimesheet />} />
                                         <Route path="chats" element={<AdminChatsApp />} />
 
                   </Route>
