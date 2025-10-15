@@ -4,7 +4,7 @@ import { endpoints } from "../apis";
 import Swal from "sweetalert2";
 import {toast} from "react-toastify"
 const {
-  LOGIN_API, SIGNUP_API,GET_ALL_EMPLOYEE, GET_SINGLE_EMPLOYEE, VERIFY_EMPLOYEE, UPDATE_EMPLOYEE
+  LOGIN_API, SIGNUP_API,GET_ALL_EMPLOYEE, GET_SINGLE_EMPLOYEE, VERIFY_EMPLOYEE, UPDATE_EMPLOYEE, SEND_DOC_TO_EMPLOYEE_BY_ADMIN, SEND_DOC_BY_EMPLOYEE
 } = endpoints;
 
 export async function login(email, password, dispatch) {
@@ -207,6 +207,77 @@ export async function updateEmployeeAPI(id, data, token) {
     toast.error(
       error?.response?.data?.message ||
         "Failed to update employee. Please try again later."
+    );
+  }
+}
+
+export async function sendAdminDocsToEmployee(id, formData, token) {
+  const toastId = toast.loading("Sending Documents to Employee...");
+
+  try {
+
+   
+    const response = await apiConnector(
+      "POST",
+      `${SEND_DOC_TO_EMPLOYEE_BY_ADMIN}/${id}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    if (!response?.data?.success) {
+      throw new Error(response?.data?.message || "Something went wrong");
+    }
+
+    toast.dismiss(toastId);
+    toast.success(response?.data?.message || "Documents sent successfully!");
+
+    return response?.data?.data; // returns updated employee
+  } catch (error) {
+    console.error("SEND ADMIN DOCS ERROR:", error);
+    toast.dismiss(toastId);
+    toast.error(
+      error?.response?.data?.message ||
+        "Failed to send documents. Please try again later."
+    );
+  }
+}
+export async function submiteEmpDocAPI(id, formData, token) {
+  const toastId = toast.loading("Sending Documents...");
+
+  try {
+
+   
+    const response = await apiConnector(
+      "POST",
+      `${SEND_DOC_BY_EMPLOYEE}/${id}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    if (!response?.data?.success) {
+      throw new Error(response?.data?.message || "Something went wrong");
+    }
+
+    toast.dismiss(toastId);
+    toast.success(response?.data?.message || "Documents sent successfully!");
+
+    return response?.data?.data; // returns updated employee
+  } catch (error) {
+    console.error("SEND ADMIN DOCS ERROR:", error);
+    toast.dismiss(toastId);
+    toast.error(
+      error?.response?.data?.message ||
+        "Failed to send documents. Please try again later."
     );
   }
 }

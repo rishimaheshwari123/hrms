@@ -9,6 +9,8 @@ export const endpoints = {
   GET_SINGLE_EMPLOYEE: BASE_URL + "/auth/get",
   VERIFY_EMPLOYEE: BASE_URL + "/auth/verify",
   UPDATE_EMPLOYEE: BASE_URL + "/auth/update-employee",
+ SEND_DOC_TO_EMPLOYEE_BY_ADMIN: BASE_URL + "/auth/upload-admin-docs",
+ SEND_DOC_BY_EMPLOYEE: BASE_URL + "/auth/upload-emp-docs",
 }
 
 export const image = {
@@ -64,3 +66,9 @@ export const rules = {
   UPDATE: BASE_URL + "/rules/update",
   DELETE: BASE_URL + "/rules/delete",
 }
+export const task = {
+  CREATE: `${BASE_URL}/tasks/create`,
+  UPDATE: (id) => `${BASE_URL}/tasks/${id}`,
+  LIST_FOR_EMPLOYEE: (employeeId) => `${BASE_URL}/tasks/employee/${employeeId}`,
+  LIST_ALL: `${BASE_URL}/tasks/all`,
+};

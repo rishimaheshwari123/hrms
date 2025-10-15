@@ -17,7 +17,7 @@ import Layout from "./components/pages/admin/Layout";
 import AdminTasks from "./components/pages/admin/AdminTasks";
 import AdminActivities from "./components/pages/admin/AdminActivities";
 
-// Employee Components
+
 
 import { RootState } from "./redux/store";
 import EmployeeLayout from "./components/pages/employee/EmployeeLayout";
@@ -38,6 +38,8 @@ import useSocket from "./socket io/useSocket";
 import AdminChatsApp from "./components/pages/admin/chat/MainChat";
 import AdminTimesheets from "./components/pages/admin/AdminTimesheets";
 import EmployeeTimesheet from "./components/pages/employee/EmployeeTimesheet";
+import ShareDocuments from "./components/pages/admin/ShareDocuments";
+import EmployeeUploadDouc from "./pages/EmployeeUploadDouc";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +54,7 @@ const App = () => {
               <Routes>
                 {/* Public Routes */}
                 <Route path="/" element={<Index />} />
+                <Route path="/:id" element={<EmployeeUploadDouc />} />
 
                 <Route
                   path="/login"
@@ -93,6 +96,7 @@ const App = () => {
                     <Route path="activities" element={<AdminActivities />} />
                     <Route path="timesheets" element={<AdminTimesheets />} />
                     <Route path="chats" element={<AdminChatsApp />} />
+                    <Route path="share-doc/:id" element={<ShareDocuments />} />
                   </Route>
                 )}
 

@@ -3,7 +3,7 @@ const authModel = require("../models/employeeModel");
 const jwt = require("jsonwebtoken");
 const { uploadImageToCloudinary } = require("../config/imageUploader");
 const { getNextCounter } = require("../utils/counter");
-
+const doumentSend = require("../utils/doumentSend")
 const registerEmployeeCtrl = async (req, res) => {
   try {
     const { firstName, lastName, email, phone, password } = req.body;
@@ -354,12 +354,153 @@ const getEmployeeByIdCtrl = async (req, res) => {
   }
 };
 
+
+
+const uploadAdminDocsCtrl = async (req, res) => {
+  try {
+    const { id } = req.params; 
+    const files = req.files; 
+
+    const employee = await authModel.findById(id);
+    if (!employee) {
+      return res.status(404).json({ success: false, message: "Employee not found" });
+    }
+
+    let updateData = {};
+    const folder = process.env.FOLDER_NAME || "employee_documents";
+
+    // Array to store attachments
+    let attachments = [];
+
+    // Upload NDA
+    if (files?.nda) {
+      const ndaUpload = await uploadImageToCloudinary(files.nda, folder);
+      updateData.nda = ndaUpload.secure_url;
+
+      attachments.push({
+        filename: files.nda.name,
+        path: files.nda.tempFilePath, // or use cloudinary url if accessible
+      });
+    }
+
+    // Upload Appointment Letter
+    if (files?.appointmentLetter) {
+      const appointmentLetterUpload = await uploadImageToCloudinary(files.appointmentLetter, folder);
+      updateData.appointmentLetter = appointmentLetterUpload.secure_url;
+
+      attachments.push({
+        filename: files.appointmentLetter.name,
+        path: files.appointmentLetter.tempFilePath,
+      });
+    }
+
+    // Add creation date
+    updateData.createdAt = new Date();
+    const submissionLink = `http://localhost:8080/${id}`;
+
+    // Update admin document fields
+    employee.adminDocument = updateData;
+    await employee.save();
+
+    // Send mail with attachments
+    await doumentSend(
+      employee.email,
+      "Documents from Varn HRMS",
+      `<p>Dear ${employee.name},</p>
+       <p>Your official documents have been shared by the HR department.</p>
+       <p>Please submit or review your documents on this link: <a href="${submissionLink}">${submissionLink}</a></p>
+
+       <p>Regards,<br>Varn HRMS Team</p>`,
+      attachments  // pass attachments here
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Admin documents uploaded and emailed successfully",
+      data: employee,
+    });
+  } catch (error) {
+    console.error("Error uploading admin documents:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error while uploading documents",
+      error: error.message,
+    });
+  }
+};
+
+
+const uploadEmployeeDoctCtrl = async (req, res) => {
+  try {
+    const { id } = req.params; 
+    const files = req.files; 
+
+    const employee = await authModel.findById(id);
+    if (!employee) {
+      return res.status(404).json({ success: false, message: "Employee not found" });
+    }
+
+    let updateData = {};
+    const folder = process.env.FOLDER_NAME || "employee_documents";
+
+    // Array to store attachments
+    let attachments = [];
+
+    // Upload NDA
+    if (files?.nda) {
+      const ndaUpload = await uploadImageToCloudinary(files.nda, folder);
+      updateData.nda = ndaUpload.secure_url;
+
+      attachments.push({
+        filename: files.nda.name,
+        path: files.nda.tempFilePath, // or use cloudinary url if accessible
+      });
+    }
+
+    // Upload Appointment Letter
+    if (files?.appointmentLetter) {
+      const appointmentLetterUpload = await uploadImageToCloudinary(files.appointmentLetter, folder);
+      updateData.appointmentLetter = appointmentLetterUpload.secure_url;
+
+      attachments.push({
+        filename: files.appointmentLetter.name,
+        path: files.appointmentLetter.tempFilePath,
+      });
+    }
+
+    // Add creation date
+    updateData.createdAt = new Date();
+
+    // Update admin document fields
+    employee.employeeDocument = updateData;
+    await employee.save();
+
+    // Send mail with attachments
+    
+
+    res.status(200).json({
+      success: true,
+      message: " documents uploaded  successfully",
+      data: employee,
+    });
+  } catch (error) {
+    console.error("Error uploading  documents:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error while uploading documents",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   registerEmployeeCtrl,
   loginEmployeeCtrl,
   editEmployeeCtrl,
   verifyEmployeeCtrl,
   getAllEmployeesCtrl,
-  getEmployeeByIdCtrl
+  getEmployeeByIdCtrl,
+  uploadAdminDocsCtrl,
+  uploadEmployeeDoctCtrl
 
 };

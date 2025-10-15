@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { getAllEmployees } from "@/service/operations/auth";
-import { createTaskAPI, listAllTasksAPI, updateTaskAPI } from "@/service/task";
+import { createTaskAPI, listAllTasksAPI, updateTaskAPI } from "@/service/operations/task";
 import { useMemo } from "react";
 import { listActivitiesAdminAPI } from "@/service/activity";
 import { toast } from "react-toastify";
@@ -116,6 +116,7 @@ const AdminTasks: React.FC = () => {
       const assignedById = (user as any)?._id || (user as any)?.id;
       const payload = { title, description, assignedTo, dueDate, priority, assignedBy: assignedById };
       await createTaskAPI(payload, headers);
+      toast.success("Task Created successfully!")
       setTitle("");
       setDescription("");
       setAssignedTo("");

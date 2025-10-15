@@ -94,7 +94,7 @@ const EmployeeTimesheet: React.FC = () => {
         <h3 className="font-medium">Today's Timesheet ({fmtDate(new Date())})</h3>
         <div>
           <Label>Notes</Label>
-          <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Aaj kya kaam kiya? (Notes only)" />
+          <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Todays work? (Notes only)" />
         </div>
         <div className="flex items-center gap-3">
           {todayEntry ? (

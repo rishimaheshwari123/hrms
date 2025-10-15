@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { FaCheck, FaTimes, FaEye, FaEdit, FaMoneyBill } from "react-icons/fa";
+import { FaCheck, FaTimes, FaEye, FaEdit, FaMoneyBill, FaRegFileAlt } from "react-icons/fa";
 
 const GetAllEmployee = () => {
   const navigate = useNavigate();
@@ -67,6 +67,9 @@ const GetAllEmployee = () => {
 
   const handleSalary = (id) => {
     navigate(`/admin/salary-employee/${id}`);
+  };
+  const handleShareDoc = (id) => {
+    navigate(`/admin/share-doc/${id}`);
   };
 
   const handleAddEmployee = () => {
@@ -174,6 +177,12 @@ const GetAllEmployee = () => {
                           className="flex items-center gap-2"
                         >
                           <FaMoneyBill className="text-green-700" /> Salary
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => handleShareDoc(emp?._id)}
+                          className="flex items-center gap-2"
+                        >
+                          <FaRegFileAlt  className="text-green-700" /> Share Documents
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>

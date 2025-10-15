@@ -21,6 +21,7 @@ async function generatePayslipPDF({ employee, payroll, slip }) {
   // Header
   doc.fontSize(18).text("Company Name", { align: "center" });
   doc.moveDown(0.5);
+  doc.fontSize(18).text("TEest", { align: "center" });
   doc.fontSize(12).text("Payslip", { align: "center" });
   if (slip.remark) {
     doc.moveDown(0.25);
@@ -125,6 +126,7 @@ async function generatePayslipPDFStream({ employee, payroll, slip, res }) {
 
   // Header
   doc.fontSize(18).text("Company Name", { align: "center" });
+  doc.fontSize(18).text("Tsnlklk Name", { align: "center" });
   doc.moveDown(0.5);
   doc.fontSize(12).text("Payslip", { align: "center" });
   if (slip.remark) {

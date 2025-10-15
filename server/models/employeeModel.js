@@ -1,23 +1,21 @@
-
-
 const mongoose = require("mongoose");
 
 const employeeSchema = new mongoose.Schema(
   {
     // 🔹 Basic Information
     employeeCode: {
-    type: String,
-    unique: true,
-    sparse: true, 
-  },
+      type: String,
+      unique: true,
+      sparse: true,
+    },
 
     firstName: { type: String, required: true },
     name: { type: String, required: true },
     middleName: { type: String },
     lastName: { type: String },
-    gender: { type: String, enum: ["Male", "Female", "Other"] },
+    gender: { type: String, enum: ["Male", "Female", "Other"], default: "Male" }, // default added
     dateOfBirth: { type: Date },
-    maritalStatus: { type: String, enum: ["Single", "Married", "Divorced", "Widowed"] },
+    maritalStatus: { type: String, enum: ["Single", "Married", "Divorced", "Widowed"], default: "Single" }, // default added
     bloodGroup: { type: String },
     nationality: { type: String },
     photoUrl: { type: String },
@@ -56,17 +54,17 @@ const employeeSchema = new mongoose.Schema(
     dateOfLeaving: { type: Date },
     employmentStatus: {
       type: String,
-      enum: ["Pending","Active", "On Leave", "Resigned", "Terminated", "Retired", "Reject"],
+      enum: ["Pending", "Active", "On Leave", "Resigned", "Terminated", "Retired", "Reject"],
       default: "Pending",
     },
     designation: { type: String },
     department: { type: String },
     manager: { type: String },
     location: { type: String },
-    employeeType: { type: String, enum: ["Permanent", "Contract", "Intern", "Part-Time"] },
+    employeeType: { type: String, enum: ["Permanent", "Contract", "Intern", "Part-Time"], default: "Permanent" }, // default added
 
     // 🔹 Reference Links
-salary: { type: mongoose.Schema.Types.ObjectId, ref: "Salary" },
+    salary: { type: mongoose.Schema.Types.ObjectId, ref: "Salary" },
     leaves: [{ type: mongoose.Schema.Types.ObjectId, ref: "Leave" }], // employee leave records
 
     // 🔹 Education / Skills / Certifications
@@ -96,12 +94,8 @@ salary: { type: mongoose.Schema.Types.ObjectId, ref: "Salary" },
     },
 
     // 🔹 Documents
-    adharCard: {
-      type :String
-    },
-    panCard: {
-      type :String
-    },
+    adharCard: { type: String },
+    panCard: { type: String },
 
     // 🔹 Performance / Appraisal
     performance: {
@@ -112,6 +106,18 @@ salary: { type: mongoose.Schema.Types.ObjectId, ref: "Salary" },
 
     // 🔹 System Meta
     isActive: { type: Boolean, default: false },
+
+    employeeDocument: {
+      nda: { type: String },
+      appointmentLetter: { type: String },
+      createdAt: { type: Date, default: Date.now },
+    },
+
+    adminDocument: {
+      nda: { type: String },
+      appointmentLetter: { type: String },
+      createdAt: { type: Date, default: Date.now },
+    },
 
   },
   { timestamps: true }

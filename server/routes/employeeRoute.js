@@ -1,5 +1,5 @@
 const express = require("express")
-const { loginEmployeeCtrl, registerEmployeeCtrl, editEmployeeCtrl, verifyEmployeeCtrl, getAllEmployeesCtrl, getEmployeeByIdCtrl } = require("../controllers/employeeCtrl")
+const { loginEmployeeCtrl, registerEmployeeCtrl, editEmployeeCtrl, verifyEmployeeCtrl, getAllEmployeesCtrl, getEmployeeByIdCtrl, uploadAdminDocsCtrl, uploadEmployeeDoctCtrl } = require("../controllers/employeeCtrl")
 const router = express.Router()
 
 
@@ -9,6 +9,8 @@ router.put("/update-employee/:id", editEmployeeCtrl)
 router.put("/verify/:id" , verifyEmployeeCtrl);
 router.get("/getAll" , getAllEmployeesCtrl);
 router.get("/get/:id" , getEmployeeByIdCtrl);
+router.post("/upload-admin-docs/:id", uploadAdminDocsCtrl);
+router.post("/upload-emp-docs/:id", uploadEmployeeDoctCtrl);
 
 
 module.exports = router

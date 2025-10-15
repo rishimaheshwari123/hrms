@@ -1,11 +1,5 @@
-import { apiConnector } from "./apiConnector";
-
-export const task = {
-  CREATE: "http://localhost:8000/api/v1/tasks/create",
-  UPDATE: (id) => `http://localhost:8000/api/v1/tasks/${id}`,
-  LIST_FOR_EMPLOYEE: (employeeId) => `http://localhost:8000/api/v1/tasks/employee/${employeeId}`,
-  LIST_ALL: "http://localhost:8000/api/v1/tasks/all",
-};
+import { apiConnector } from "../apiConnector";
+import { task } from "../apis";
 
 export async function createTaskAPI(payload, headers) {
   return apiConnector("POST", task.CREATE, payload, { headers });
