@@ -56,34 +56,43 @@ const EmployeePayslips: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?._id, token]);
 
-  const handleGenerate = async (payslipId: string) => {
-    if (!token) return;
-    try {
-      // Request streaming PDF and trigger browser download
-      const resp = await apiConnector(
-        "POST",
-        `${payslip.GENERATE}/${payslipId}`,
-        null,
-        { headers: { Authorization: `Bearer ${token}` } },
-        null,
-        { responseType: "blob" }
-      );
-      const blob = new Blob([resp.data], { type: "application/pdf" });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `payslip_${payslipId}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      window.URL.revokeObjectURL(url);
-+      toast.success("Payslip PDF generated");
-     } catch (e: any) {
--      // error handled in service via toast or here
-+      console.error("EMP GENERATE PAYSLIP ERROR:", e);
-+      toast.error(e?.response?.data?.message || "Failed to generate payslip PDF.");
-     }
-  };
+ const handleGenerate = async (payslipId: string) => {
+  if (!token) return;
+  try {
+    const resp = await apiConnector(
+      "POST",
+      `${payslip.GENERATE}/${payslipId}`,
+      null,
+      { headers: { Authorization: `Bearer ${token}` } },
+      null,
+      { responseType: "blob" }
+    );
+
+    // Extract filename from Content-Disposition
+    let filename = "download.pdf"; // fallback
+    const disposition = resp.headers["content-disposition"];
+    if (disposition) {
+      const match = disposition.match(/filename="?([^"]+)"?/);
+      if (match && match[1]) filename = match[1];
+    }
+
+    const blob = new Blob([resp.data], { type: "application/pdf" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename; // <-- backend filename
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+
+    toast.success("Payslip PDF generated");
+  } catch (e: any) {
+    console.error("EMP GENERATE PAYSLIP ERROR:", e);
+    toast.error(e?.response?.data?.message || "Failed to generate payslip PDF.");
+  }
+};
+
 
   return (
     <div className="min-h-screen p-4">
