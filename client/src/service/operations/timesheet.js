@@ -67,10 +67,13 @@ export async function getMyTimesheetsAPI(range = "day", date, token) {
     const params = {};
     if (range) params.range = range;
     if (date) params.date = date;
-    const response = await apiConnector("GET", timesheet.MY, null, {
-      headers: { Authorization: `Bearer ${token}` },
-      params,
-    });
+    const response = await apiConnector(
+      "GET",
+      timesheet.MY,
+      null,
+      { headers: { Authorization: `Bearer ${token}` } },
+      params
+    );
     if (!response?.data?.success) {
       throw new Error(response?.data?.message || "Failed to load timesheets");
     }
@@ -88,10 +91,13 @@ export async function listTimesheetsAdminAPI({ range = "day", date, employeeId }
     if (range) params.range = range;
     if (date) params.date = date;
     if (employeeId) params.employeeId = employeeId;
-    const response = await apiConnector("GET", timesheet.ADMIN, null, {
-      headers: { Authorization: `Bearer ${token}` },
-      params,
-    });
+    const response = await apiConnector(
+      "GET",
+      timesheet.ADMIN,
+      null,
+      { headers: { Authorization: `Bearer ${token}` } },
+      params
+    );
     if (!response?.data?.success) {
       throw new Error(response?.data?.message || "Failed to load timesheets");
     }
@@ -108,10 +114,13 @@ export async function getEmployeeTimesheetsAPI(id, { range = "day", date } = {},
     const params = {};
     if (range) params.range = range;
     if (date) params.date = date;
-    const response = await apiConnector("GET", timesheet.EMPLOYEE(id), null, {
-      headers: { Authorization: `Bearer ${token}` },
-      params,
-    });
+    const response = await apiConnector(
+      "GET",
+      timesheet.EMPLOYEE(id),
+      null,
+      { headers: { Authorization: `Bearer ${token}` } },
+      params
+    );
     if (!response?.data?.success) {
       throw new Error(response?.data?.message || "Failed to load employee timesheets");
     }
