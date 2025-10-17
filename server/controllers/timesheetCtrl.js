@@ -1,5 +1,6 @@
 const Timesheet = require("../models/timesheetModel");
 const Employee = require("../models/employeeModel");
+const mongoose = require("mongoose");
 
 function startOfDay(d) {
   const x = new Date(d);
@@ -134,7 +135,12 @@ exports.listAdminCtrl = async (req, res) => {
     const { range = "day", date, employeeId } = req.query;
     const { start, end } = getRangeBounds(String(range), date);
     const match = { date: { $gte: start, $lte: end } };
-    if (employeeId) match.employee = require("mongoose").Types.ObjectId(employeeId);
+    if (employeeId) {
+      if (!mongoose.Types.ObjectId.isValid(employeeId)) {
+        return res.status(400).json({ success: false, message: "Invalid employeeId" });
+      }
+      match.employee = new mongoose.Types.ObjectId(employeeId);
+    }
 
     const rows = await Timesheet.aggregate([
       { $match: match },
