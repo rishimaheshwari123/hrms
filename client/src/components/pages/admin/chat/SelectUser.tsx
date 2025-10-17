@@ -94,11 +94,21 @@ const ConversationList = ({ onConversationSelect, onUserSelect }) => {
                 className={`flex items-center space-x-3 ${conversation.unreadCount > 0 ? 'font-bold' : ''}`}
                 onClick={() => onClickUser(participant._id)}
               >
-                <img
-                  src={participant.photoUrl} // Replace with a default avatar if image is not available
-                  alt={participant.name}
-                  className="w-10 h-10 rounded-full object-cover"
-                />
+               <div className="flex items-center space-x-2">
+  {participant?.photoUrl ? (
+    <img
+      src={participant.photoUrl}
+      alt={participant.name}
+      className="w-10 h-10 rounded-full object-cover"
+    />
+  ) : (
+    <div className="w-10 h-10 rounded-full bg-orange-600 text-white flex items-center justify-center font-semibold text-lg">
+      {participant?.name ? participant.name.charAt(0).toUpperCase() : "U"}
+    </div>
+  )}
+
+</div>
+
                 <div className="flex-1">
                   <div className="text-lg font-medium">{participant.name}</div>
                   <div className="text-sm text-gray-600">

@@ -40,6 +40,8 @@ import AdminTimesheets from "./components/pages/admin/AdminTimesheets";
 import EmployeeTimesheet from "./components/pages/employee/EmployeeTimesheet";
 import ShareDocuments from "./components/pages/admin/ShareDocuments";
 import EmployeeUploadDouc from "./pages/EmployeeUploadDouc";
+import Contact from "./pages/Contact";
+import AboutPage from "./pages/AboutPage";
 
 const queryClient = new QueryClient();
 
@@ -54,7 +56,9 @@ const App = () => {
               <Routes>
                 {/* Public Routes */}
                 <Route path="/" element={<Index />} />
-                <Route path="/:id" element={<EmployeeUploadDouc />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/doct-submite-by-user/:id" element={<EmployeeUploadDouc />} />
 
                 <Route
                   path="/login"

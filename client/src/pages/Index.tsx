@@ -1,7 +1,18 @@
+import ContactSection from "@/components/ContactSection";
+import FeaturesSection from "@/components/FeaturesSection";
+import Footer from "@/components/Footer";
+import HeroSection from "@/components/HeroSection";
+import Navbar from "@/components/Navbar";
+
 const Index = () => {
   return (
     <div className="min-h-screen">
-      <h1>heelo</h1>
+      <Navbar/>
+      <HeroSection/>
+      <FeaturesSection/>
+      <ContactSection/>
+      
+      <Footer/>
     </div>
   );
 };

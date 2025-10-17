@@ -114,14 +114,24 @@ const Chat = ({ receiverId, onClose,idReciever }) => {
       <div className="bg-white w-full max-w-lg h-3/4 rounded-lg shadow-lg flex flex-col">
         <div className="flex items-center justify-between p-4 border-b bg-blue-500 text-white rounded-t-lg">
           <div className="flex items-center gap-3">
-            <img
-              src={receiver?.photoUrl || 'default-avatar.png'}
-              alt="Receiver"
-              className="w-10 h-10 rounded-full object-cover"
-            />
-            <h2 className="text-xl font-semibold">
-              {receiver ? receiver?.name : "Chat"}
-            </h2>
+            <div className="flex items-center space-x-3">
+  {receiver?.photoUrl ? (
+    <img
+      src={receiver.photoUrl}
+      alt={receiver.name}
+      className="w-10 h-10 rounded-full object-cover"
+    />
+  ) : (
+    <div className="w-10 h-10 rounded-full bg-orange-600 text-white flex items-center justify-center font-semibold text-lg">
+      {receiver?.name ? receiver.name.charAt(0).toUpperCase() : "C"}
+    </div>
+  )}
+
+  <h2 className="text-xl font-semibold">
+    {receiver ? receiver.name : "Chat"}
+  </h2>
+</div>
+
           </div>
           <button
             onClick={onClose}

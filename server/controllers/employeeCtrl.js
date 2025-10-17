@@ -396,7 +396,7 @@ const uploadAdminDocsCtrl = async (req, res) => {
 
     // Add creation date
     updateData.createdAt = new Date();
-    const submissionLink = `http://localhost:8080/${id}`;
+    const submissionLink = `http://localhost:8080/doct-submite-by-user/${id}`;
 
     // Update admin document fields
     employee.adminDocument = updateData;
