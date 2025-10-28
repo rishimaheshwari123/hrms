@@ -71,7 +71,7 @@ app.use("/api/v1/timesheet", require("./routes/timesheetRoute"));
 app.get("/", (req, res) => {
   return res.json({
     success: true,
-    message: "Your server is up and running ... MAHI TECHNOCRAFTS",
+    message: "Your server is up and running ",
   });
 });
 
